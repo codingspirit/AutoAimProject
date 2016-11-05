@@ -1,0 +1,15 @@
+Change Component Designator: OldDesignator=NMOS2 NewDesignator=NMOS5
+Change Component Designator: OldDesignator=NMOS3 NewDesignator=NMOS6
+Change Component Designator: OldDesignator=NMOS4 NewDesignator=NMOS7
+Change Component Designator: OldDesignator=NMOS5 NewDesignator=NMOS8
+Change Component Designator: OldDesignator=NMOS6 NewDesignator=NMOS2
+Change Component Designator: OldDesignator=NMOS7 NewDesignator=NMOS3
+Change Component Designator: OldDesignator=NMOS8 NewDesignator=NMOS4
+Change Net Name : Old Net Name=NetNMOS2_1 New Net Name=NetNMOS5_1
+Change Net Name : Old Net Name=NetNMOS3_1 New Net Name=NetNMOS6_1
+Change Net Name : Old Net Name=NetNMOS4_1 New Net Name=NetNMOS7_1
+Change Net Name : Old Net Name=NetNMOS5_1 New Net Name=NetNMOS8_1
+Change Net Name : Old Net Name=NetNMOS6_1 New Net Name=NetNMOS2_1
+Change Net Name : Old Net Name=NetNMOS7_1 New Net Name=NetNMOS3_1
+Change Net Name : Old Net Name=NetNMOS8_1 New Net Name=NetNMOS4_1
+Added Room: Name=H

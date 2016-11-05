@@ -1,0 +1,33 @@
+Added Component: Designator=D7(SMB)
+Added Component: Designator=D8(SMB)
+Added Component: Designator=D9(SMB)
+Added Component: Designator=D10(SMB)
+Added Component: Designator=D11(SMB)
+Added Component: Designator=D12(SMB)
+Added Component: Designator=D13(SMB)
+Added Component: Designator=D14(SMB)
+Added Pin To Net: NetName=NetB1_1 Pin=D7-1
+Added Pin To Net: NetName=12V Pin=D7-2
+Added Pin To Net: NetName=GND Pin=D8-1
+Added Pin To Net: NetName=NetB1_1 Pin=D8-2
+Added Pin To Net: NetName=NetB1_2 Pin=D9-1
+Added Pin To Net: NetName=12V Pin=D9-2
+Added Pin To Net: NetName=GND Pin=D10-1
+Added Pin To Net: NetName=NetB1_2 Pin=D10-2
+Added Pin To Net: NetName=NetB2_1 Pin=D11-1
+Added Pin To Net: NetName=12V Pin=D11-2
+Added Pin To Net: NetName=GND Pin=D12-1
+Added Pin To Net: NetName=NetB2_1 Pin=D12-2
+Added Pin To Net: NetName=NetB2_2 Pin=D13-1
+Added Pin To Net: NetName=12V Pin=D13-2
+Added Pin To Net: NetName=GND Pin=D14-1
+Added Pin To Net: NetName=NetB2_2 Pin=D14-2
+Added Member To Class: ClassName=H Member=Component D7 IN5819
+Added Member To Class: ClassName=H Member=Component D8 IN5819
+Added Member To Class: ClassName=H Member=Component D9 IN5819
+Added Member To Class: ClassName=H Member=Component D10 IN5819
+Added Member To Class: ClassName=H Member=Component D11 IN5819
+Added Member To Class: ClassName=H Member=Component D12 IN5819
+Added Member To Class: ClassName=H Member=Component D13 IN5819
+Added Member To Class: ClassName=H Member=Component D14 IN5819
+Added Room: Name=H

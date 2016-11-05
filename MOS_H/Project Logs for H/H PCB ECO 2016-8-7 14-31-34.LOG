@@ -1,0 +1,255 @@
+Added Component: Designator=B1(RB5-10.5)
+Added Component: Designator=B2(RB5-10.5)
+Added Component: Designator=C0(C-RB-SD10)
+Added Component: Designator=C1(C-0603)
+Added Component: Designator=C2(C-0603)
+Added Component: Designator=C3(C-0603)
+Added Component: Designator=C4(C-0603)
+Added Component: Designator=C5(C-0603)
+Added Component: Designator=C6(C-0603)
+Added Component: Designator=C7(C-0603)
+Added Component: Designator=C8(C-0603)
+Added Component: Designator=C9(C-0603)
+Added Component: Designator=C10(C-0603)
+Added Component: Designator=C11(C-0603)
+Added Component: Designator=C12(C-0603)
+Added Component: Designator=C13(C-0603)
+Added Component: Designator=C14(C-0603)
+Added Component: Designator=C15(C-0603)
+Added Component: Designator=C16(C-0603)
+Added Component: Designator=C17(C-0603)
+Added Component: Designator=D0(SMA)
+Added Component: Designator=D2(DSO-C2/D5.6)
+Added Component: Designator=D3(SMB)
+Added Component: Designator=D4(SMB)
+Added Component: Designator=D5(SMB)
+Added Component: Designator=D6(SMB)
+Added Component: Designator=HBD1(IR2104)
+Added Component: Designator=HBD2(IR2104)
+Added Component: Designator=HBD3(IR2104)
+Added Component: Designator=HBD4(IR2104)
+Added Component: Designator=J1(DC-002)
+Added Component: Designator=LM1117-3.3(lm1117)
+Added Component: Designator=LM1117-5(lm1117)
+Added Component: Designator=NMOS1(IR7843)
+Added Component: Designator=NMOS2(IR7843)
+Added Component: Designator=NMOS3(IR7843)
+Added Component: Designator=NMOS4(IR7843)
+Added Component: Designator=NMOS5(IR7843)
+Added Component: Designator=NMOS6(IR7843)
+Added Component: Designator=NMOS7(IR7843)
+Added Component: Designator=NMOS8(IR7843)
+Added Component: Designator=P2(HDR1X4)
+Added Component: Designator=R1(0603-1)
+Added Component: Designator=R2(0603-1)
+Added Component: Designator=R3(0603-1)
+Added Component: Designator=R4(0603-1)
+Added Component: Designator=R5(0603-1)
+Added Component: Designator=R6(0603-1)
+Added Component: Designator=R7(0603-1)
+Added Component: Designator=R8(0603-1)
+Added Component: Designator=R9(0603-1)
+Added Component: Designator=S1(SW3P)
+Added Component: Designator=U1(74lvc245)
+Added Pin To Net: NetName=3.3V Pin=C7-2
+Added Pin To Net: NetName=3.3V Pin=C8-2
+Added Pin To Net: NetName=3.3V Pin=C9-1
+Added Pin To Net: NetName=3.3V Pin=D2-1
+Added Pin To Net: NetName=3.3V Pin=LM1117-3.3-4
+Added Pin To Net: NetName=3.3V Pin=U1-20
+Added Net: Name=3.3V
+Added Pin To Net: NetName=5V Pin=C3-2
+Added Pin To Net: NetName=5V Pin=C4-2
+Added Pin To Net: NetName=5V Pin=C5-2
+Added Pin To Net: NetName=5V Pin=C6-2
+Added Pin To Net: NetName=5V Pin=LM1117-3.3-3
+Added Pin To Net: NetName=5V Pin=LM1117-5-4
+Added Net: Name=5V
+Added Pin To Net: NetName=12V Pin=C1-2
+Added Pin To Net: NetName=12V Pin=C2-2
+Added Pin To Net: NetName=12V Pin=C10-1
+Added Pin To Net: NetName=12V Pin=C14-1
+Added Pin To Net: NetName=12V Pin=C16-1
+Added Pin To Net: NetName=12V Pin=C17-1
+Added Pin To Net: NetName=12V Pin=D0-2
+Added Pin To Net: NetName=12V Pin=D3-1
+Added Pin To Net: NetName=12V Pin=D4-1
+Added Pin To Net: NetName=12V Pin=D5-1
+Added Pin To Net: NetName=12V Pin=D6-1
+Added Pin To Net: NetName=12V Pin=HBD1-1
+Added Pin To Net: NetName=12V Pin=HBD1-3
+Added Pin To Net: NetName=12V Pin=HBD2-1
+Added Pin To Net: NetName=12V Pin=HBD2-3
+Added Pin To Net: NetName=12V Pin=HBD3-1
+Added Pin To Net: NetName=12V Pin=HBD3-3
+Added Pin To Net: NetName=12V Pin=HBD4-1
+Added Pin To Net: NetName=12V Pin=HBD4-3
+Added Pin To Net: NetName=12V Pin=LM1117-5-3
+Added Pin To Net: NetName=12V Pin=NMOS1-4
+Added Pin To Net: NetName=12V Pin=NMOS2-4
+Added Pin To Net: NetName=12V Pin=NMOS4-4
+Added Pin To Net: NetName=12V Pin=NMOS7-4
+Added Net: Name=12V
+Added Pin To Net: NetName=GND Pin=C0-2
+Added Pin To Net: NetName=GND Pin=C1-1
+Added Pin To Net: NetName=GND Pin=C2-1
+Added Pin To Net: NetName=GND Pin=C3-1
+Added Pin To Net: NetName=GND Pin=C4-1
+Added Pin To Net: NetName=GND Pin=C5-1
+Added Pin To Net: NetName=GND Pin=C6-1
+Added Pin To Net: NetName=GND Pin=C7-1
+Added Pin To Net: NetName=GND Pin=C8-1
+Added Pin To Net: NetName=GND Pin=C9-2
+Added Pin To Net: NetName=GND Pin=C10-2
+Added Pin To Net: NetName=GND Pin=C14-2
+Added Pin To Net: NetName=GND Pin=C16-2
+Added Pin To Net: NetName=GND Pin=C17-2
+Added Pin To Net: NetName=GND Pin=HBD1-4
+Added Pin To Net: NetName=GND Pin=HBD2-4
+Added Pin To Net: NetName=GND Pin=HBD3-4
+Added Pin To Net: NetName=GND Pin=HBD4-4
+Added Pin To Net: NetName=GND Pin=J1-2
+Added Pin To Net: NetName=GND Pin=J1-3
+Added Pin To Net: NetName=GND Pin=LM1117-3.3-1
+Added Pin To Net: NetName=GND Pin=LM1117-5-1
+Added Pin To Net: NetName=GND Pin=NMOS3-3
+Added Pin To Net: NetName=GND Pin=NMOS5-3
+Added Pin To Net: NetName=GND Pin=NMOS6-3
+Added Pin To Net: NetName=GND Pin=NMOS8-3
+Added Pin To Net: NetName=GND Pin=R1-1
+Added Pin To Net: NetName=GND Pin=U1-1
+Added Pin To Net: NetName=GND Pin=U1-6
+Added Pin To Net: NetName=GND Pin=U1-7
+Added Pin To Net: NetName=GND Pin=U1-8
+Added Pin To Net: NetName=GND Pin=U1-9
+Added Pin To Net: NetName=GND Pin=U1-10
+Added Pin To Net: NetName=GND Pin=U1-11
+Added Pin To Net: NetName=GND Pin=U1-12
+Added Pin To Net: NetName=GND Pin=U1-13
+Added Pin To Net: NetName=GND Pin=U1-14
+Added Pin To Net: NetName=GND Pin=U1-19
+Added Net: Name=GND
+Added Pin To Net: NetName=NetB1_1 Pin=B1-1
+Added Pin To Net: NetName=NetB1_1 Pin=C11-2
+Added Pin To Net: NetName=NetB1_1 Pin=HBD1-6
+Added Pin To Net: NetName=NetB1_1 Pin=NMOS1-3
+Added Pin To Net: NetName=NetB1_1 Pin=NMOS6-4
+Added Net: Name=NetB1_1
+Added Pin To Net: NetName=NetB1_2 Pin=B1-2
+Added Pin To Net: NetName=NetB1_2 Pin=C13-2
+Added Pin To Net: NetName=NetB1_2 Pin=HBD2-6
+Added Pin To Net: NetName=NetB1_2 Pin=NMOS7-3
+Added Pin To Net: NetName=NetB1_2 Pin=NMOS8-4
+Added Net: Name=NetB1_2
+Added Pin To Net: NetName=NetB2_1 Pin=B2-1
+Added Pin To Net: NetName=NetB2_1 Pin=C12-2
+Added Pin To Net: NetName=NetB2_1 Pin=HBD4-6
+Added Pin To Net: NetName=NetB2_1 Pin=NMOS2-3
+Added Pin To Net: NetName=NetB2_1 Pin=NMOS3-4
+Added Net: Name=NetB2_1
+Added Pin To Net: NetName=NetB2_2 Pin=B2-2
+Added Pin To Net: NetName=NetB2_2 Pin=C15-2
+Added Pin To Net: NetName=NetB2_2 Pin=HBD3-6
+Added Pin To Net: NetName=NetB2_2 Pin=NMOS4-3
+Added Pin To Net: NetName=NetB2_2 Pin=NMOS5-4
+Added Net: Name=NetB2_2
+Added Pin To Net: NetName=NetC0_1 Pin=C0-1
+Added Pin To Net: NetName=NetC0_1 Pin=D0-1
+Added Pin To Net: NetName=NetC0_1 Pin=S1-2
+Added Net: Name=NetC0_1
+Added Pin To Net: NetName=NetC11_1 Pin=C11-1
+Added Pin To Net: NetName=NetC11_1 Pin=D3-2
+Added Pin To Net: NetName=NetC11_1 Pin=HBD1-8
+Added Net: Name=NetC11_1
+Added Pin To Net: NetName=NetC12_1 Pin=C12-1
+Added Pin To Net: NetName=NetC12_1 Pin=D6-2
+Added Pin To Net: NetName=NetC12_1 Pin=HBD4-8
+Added Net: Name=NetC12_1
+Added Pin To Net: NetName=NetC13_1 Pin=C13-1
+Added Pin To Net: NetName=NetC13_1 Pin=D4-2
+Added Pin To Net: NetName=NetC13_1 Pin=HBD2-8
+Added Net: Name=NetC13_1
+Added Pin To Net: NetName=NetC15_1 Pin=C15-1
+Added Pin To Net: NetName=NetC15_1 Pin=D5-2
+Added Pin To Net: NetName=NetC15_1 Pin=HBD3-8
+Added Net: Name=NetC15_1
+Added Pin To Net: NetName=NetD2_2 Pin=D2-2
+Added Pin To Net: NetName=NetD2_2 Pin=R1-2
+Added Net: Name=NetD2_2
+Added Pin To Net: NetName=NetHBD1_5 Pin=HBD1-5
+Added Pin To Net: NetName=NetHBD1_5 Pin=R7-1
+Added Net: Name=NetHBD1_5
+Added Pin To Net: NetName=NetHBD1_7 Pin=HBD1-7
+Added Pin To Net: NetName=NetHBD1_7 Pin=R2-1
+Added Net: Name=NetHBD1_7
+Added Pin To Net: NetName=NetHBD2_5 Pin=HBD2-5
+Added Pin To Net: NetName=NetHBD2_5 Pin=R9-1
+Added Net: Name=NetHBD2_5
+Added Pin To Net: NetName=NetHBD2_7 Pin=HBD2-7
+Added Pin To Net: NetName=NetHBD2_7 Pin=R8-1
+Added Net: Name=NetHBD2_7
+Added Pin To Net: NetName=NetHBD3_5 Pin=HBD3-5
+Added Pin To Net: NetName=NetHBD3_5 Pin=R6-1
+Added Net: Name=NetHBD3_5
+Added Pin To Net: NetName=NetHBD3_7 Pin=HBD3-7
+Added Pin To Net: NetName=NetHBD3_7 Pin=R5-1
+Added Net: Name=NetHBD3_7
+Added Pin To Net: NetName=NetHBD4_5 Pin=HBD4-5
+Added Pin To Net: NetName=NetHBD4_5 Pin=R4-1
+Added Net: Name=NetHBD4_5
+Added Pin To Net: NetName=NetHBD4_7 Pin=HBD4-7
+Added Pin To Net: NetName=NetHBD4_7 Pin=R3-1
+Added Net: Name=NetHBD4_7
+Added Pin To Net: NetName=NetJ1_1 Pin=J1-1
+Added Pin To Net: NetName=NetJ1_1 Pin=S1-1
+Added Net: Name=NetJ1_1
+Added Pin To Net: NetName=NetNMOS1_1 Pin=NMOS1-1
+Added Pin To Net: NetName=NetNMOS1_1 Pin=R2-2
+Added Net: Name=NetNMOS1_1
+Added Pin To Net: NetName=NetNMOS2_1 Pin=NMOS2-1
+Added Pin To Net: NetName=NetNMOS2_1 Pin=R3-2
+Added Net: Name=NetNMOS2_1
+Added Pin To Net: NetName=NetNMOS3_1 Pin=NMOS3-1
+Added Pin To Net: NetName=NetNMOS3_1 Pin=R4-2
+Added Net: Name=NetNMOS3_1
+Added Pin To Net: NetName=NetNMOS4_1 Pin=NMOS4-1
+Added Pin To Net: NetName=NetNMOS4_1 Pin=R5-2
+Added Net: Name=NetNMOS4_1
+Added Pin To Net: NetName=NetNMOS5_1 Pin=NMOS5-1
+Added Pin To Net: NetName=NetNMOS5_1 Pin=R6-2
+Added Net: Name=NetNMOS5_1
+Added Pin To Net: NetName=NetNMOS6_1 Pin=NMOS6-1
+Added Pin To Net: NetName=NetNMOS6_1 Pin=R7-2
+Added Net: Name=NetNMOS6_1
+Added Pin To Net: NetName=NetNMOS7_1 Pin=NMOS7-1
+Added Pin To Net: NetName=NetNMOS7_1 Pin=R8-2
+Added Net: Name=NetNMOS7_1
+Added Pin To Net: NetName=NetNMOS8_1 Pin=NMOS8-1
+Added Pin To Net: NetName=NetNMOS8_1 Pin=R9-2
+Added Net: Name=NetNMOS8_1
+Added Pin To Net: NetName=NetP2_1 Pin=P2-1
+Added Pin To Net: NetName=NetP2_1 Pin=U1-18
+Added Net: Name=NetP2_1
+Added Pin To Net: NetName=NetP2_2 Pin=P2-2
+Added Pin To Net: NetName=NetP2_2 Pin=U1-17
+Added Net: Name=NetP2_2
+Added Pin To Net: NetName=NetP2_3 Pin=P2-3
+Added Pin To Net: NetName=NetP2_3 Pin=U1-16
+Added Net: Name=NetP2_3
+Added Pin To Net: NetName=NetP2_4 Pin=P2-4
+Added Pin To Net: NetName=NetP2_4 Pin=U1-15
+Added Net: Name=NetP2_4
+Added Pin To Net: NetName=PWM1 Pin=HBD1-2
+Added Pin To Net: NetName=PWM1 Pin=U1-2
+Added Net: Name=PWM1
+Added Pin To Net: NetName=PWM2 Pin=HBD2-2
+Added Pin To Net: NetName=PWM2 Pin=U1-3
+Added Net: Name=PWM2
+Added Pin To Net: NetName=PWM3 Pin=HBD4-2
+Added Pin To Net: NetName=PWM3 Pin=U1-4
+Added Net: Name=PWM3
+Added Pin To Net: NetName=PWM4 Pin=HBD3-2
+Added Pin To Net: NetName=PWM4 Pin=U1-5
+Added Net: Name=PWM4
+Added Class: Name=H
+Added Room: Name=H

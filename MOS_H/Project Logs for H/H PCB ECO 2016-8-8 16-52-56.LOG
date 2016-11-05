@@ -1,0 +1,4 @@
+Change Component Designator: OldDesignator=D5 NewDesignator=D6
+Change Component Designator: OldDesignator=D6 NewDesignator=D5
+Added Member To Class: ClassName=H Member=Component NMOS4 LR7843
+Added Room: Name=H

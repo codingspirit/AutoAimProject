@@ -1,0 +1,6 @@
+Added Component: Designator=C0(C-RB-SD10)
+Added Pin To Net: NetName=12V Pin=C0-1
+Added Pin To Net: NetName=GND Pin=C0-2
+Change Net Name : Old Net Name=NetC0_1 New Net Name=NetD0_1
+Added Member To Class: ClassName=H Member=Component C0 Cap Pol1
+Added Room: Name=H
