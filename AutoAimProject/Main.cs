@@ -485,7 +485,7 @@ namespace AutoAimProject
         }
         public static void RemoteControl(string command)
         {
-            if(_sendIng)
+            //if(_sendIng)
             {
                 switch (command)
                 {

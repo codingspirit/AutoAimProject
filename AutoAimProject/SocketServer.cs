@@ -11,7 +11,6 @@ namespace AutoAimProject
 {
     class SocketServer
     {
-        byte[] ReciveBuffer;
         IPAddress serverIP;
         int serverPort;
         IPEndPoint serverIPE;
@@ -102,10 +101,10 @@ namespace AutoAimProject
             if (isRunning)
             {
                 listener.Stop();
-                //foreach (Client item in clientList)
+                //for (int i= clientList.Count-1; i>=0;i--)
                 //{
-                //    item.Dispose();
-                //    clientList.Remove(item);
+                //    clientList[i].Dispose();
+                //    clientList.RemoveAt(i);
                 //}
                 isRunning = false;
             }
@@ -159,32 +158,33 @@ namespace AutoAimProject
         }
         private void ConnectCallBack(IAsyncResult ar)
         {
-                try
+            try
+            {
+                Socket socket = listener.EndAcceptSocket(ar);
+                Client client = new Client(socket);
+                if (!clientList.Contains(client))
                 {
-                    Socket socket = listener.EndAcceptSocket(ar);
-                    Client client = new Client(socket);
-                    if (!clientList.Contains(client))
-                    {
-                        clientList.Add(client);
-                        clientName.Add(clientList.Last<Client>().Name);
-                        //Sign Event
-                        Client_ConnectEvent(clientName, new EventArgs());
-                    }
-                    AsyncCallback callback;
-                    if (isRunning)
-                    {
-                        callback = new AsyncCallback(ConnectCallBack);
-                        listener.BeginAcceptSocket(callback, listener);
-                    }
-                    client.ClearBuffer();
-                    callback = new AsyncCallback(ReceiveCallBack);
-                    client.socket.BeginReceive(client.buffer, 0, client.buffer.Length, SocketFlags.None, callback, client);
+                    clientList.Add(client);
+                    clientName.Add(clientList.Last<Client>().Name);
+                    //Sign Event
+                    Client_ConnectEvent(clientName, new EventArgs());
                 }
-                catch (Exception e)
+                AsyncCallback callback;
+                if (isRunning)
                 {
-                    isRunning = false;
-                    //MessageBox.Show("Unknown Error:" + e.Message, "Error!");
+                    callback = new AsyncCallback(ConnectCallBack);
+                    listener.BeginAcceptSocket(callback, listener);
                 }
+                client.ClearBuffer();
+                callback = new AsyncCallback(ReceiveCallBack);
+                client.socket.BeginReceive(client.buffer, 0, client.buffer.Length, SocketFlags.None, callback, client);
+
+            }
+            catch (Exception e)
+            {
+                isRunning = false;
+                //MessageBox.Show("Unknown Error:" + e.Message, "Error!");
+            }
         }
         private void ReceiveCallBack(IAsyncResult ar)
         {

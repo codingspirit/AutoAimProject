@@ -77,7 +77,10 @@ namespace AutoAimProject
             if (((string)sender).Contains("/"))
             {
                 RemoteCommand remotecommand = new RemoteCommand(Main.RemoteControl);
-                remotecommand((string)sender);
+                int s1 = ((string)sender).IndexOf("/");
+                int s2= ((string)sender).LastIndexOf("/");
+                string cmd = ((string)sender).Substring(s1, s2-s1+1);
+                remotecommand(cmd);
             }
             listBoxState.Items.Add((string)sender);
             listBoxState.SelectedIndex = listBoxState.Items.Count - 1;

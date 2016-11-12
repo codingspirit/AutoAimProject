@@ -68,6 +68,7 @@ typedef struct
     int xError;
     int yError;
     _Bool fireflag;
+	 _Bool manualflag;
 } MotorState;
 MotorState mstate = {0, 0, 0};
 uint8_t UserTxBuffer[] = "#00000000";
@@ -89,6 +90,7 @@ void Error_Handler(void);
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 void Error_Handler(void);
+void ManualControl(char dir);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
@@ -101,7 +103,7 @@ void Error_Handler(void);
 /* protocal */
 MotorState GetStates(uint8_t * RecieveData)
 {
-    MotorState mstemp = {0, 0, 0};
+    MotorState mstemp = {0, 0, 0,0};
 
     if(RecieveData[0] == '@' || RecieveData[0] == '!') //error
     {
@@ -134,25 +136,31 @@ MotorState GetStates(uint8_t * RecieveData)
 
     else if(RecieveData[0] == '[') //manual
     {
-        switch(RecieveData[2])
-        {
-        case 'L':
-            break;
-
-        case 'R':
-            break;
-
-        case 'U':
-            break;
-
-        case 'D':
-            break;
-        }
+				mstemp.manualflag=1;
+        ManualControl(RecieveData[4]);
     }
 
     memset(RecieveData, 0, 9);
 
     return mstemp;
+}
+
+void ManualControl(char dir)
+{
+    switch(dir)
+    {
+    case 'L':USER_TIM1_SetPWM(TIM_CHANNEL_2, 4500);
+        break;
+
+    case 'R':USER_TIM1_SetPWM(TIM_CHANNEL_2, 5500);
+        break;
+
+    case 'U':USER_TIM1_SetPWM(TIM_CHANNEL_3, 4500);
+        break;
+
+    case 'D':USER_TIM1_SetPWM(TIM_CHANNEL_3, 5500);
+        break;
+    }
 }
 
 void MotorTest(uint8_t * RecieveData)
@@ -364,8 +372,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
             XPWM = 5000 + XPIDout;
             YPWM = 5000 + YPIDout;
+						if(!mstate.manualflag)
+						{
             USER_TIM1_SetPWM(TIM_CHANNEL_2, XPWM);
             USER_TIM1_SetPWM(TIM_CHANNEL_3, YPWM);
+						}
         }
 
         if(period >= 3)
