@@ -51,10 +51,10 @@
 #include "usbd_cdc.h"
 #include "usbd_cdc_if.h"
 #include "my_pid.h"
-#define XDEAD 150
+#define XDEAD 180
 #define YDEAD 0
-#define XMAX 300
-#define XMIN -300
+#define XMAX 600
+#define XMIN -600
 #define YMAX 1000
 #define YMIN -1000
 /* USER CODE END Includes */
@@ -140,7 +140,7 @@ MotorState GetStates(uint8_t * RecieveData)
         ManualControl(RecieveData[4]);
     }
 
-    memset(RecieveData, 0, 9);
+    //memset(RecieveData, 0, 9);
 
     return mstemp;
 }

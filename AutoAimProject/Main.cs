@@ -139,6 +139,7 @@ namespace AutoAimProject
                 {
                     _capture = new Capture(camNum);
                 }
+                _capture.SetCaptureProperty(CapProp.Fps, 60);
                 _capture.Start();
                 if (backProcess != null)
                 {
