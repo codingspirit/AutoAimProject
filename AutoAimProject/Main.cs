@@ -25,6 +25,7 @@ namespace AutoAimProject
         private PortSetting portsetting;
         private bool _captureIng = false;
         static bool _sendIng = false;
+        static bool _manual = false;
         private bool _selectEd = false;
         private bool _fire = false;
         private bool _autoaim = false;
@@ -376,7 +377,11 @@ namespace AutoAimProject
             }
             else
             {
-                serialPort1.Write("@+000+000");
+                DateTime t1 = DateTime.Now;
+                while ((DateTime.Now-t1).Milliseconds<15)
+                {
+                    serialPort1.Write("@+000+000");
+                }
                 serialPort1.Close();
             }
             if (serialPort1.IsOpen)
@@ -408,44 +413,47 @@ namespace AutoAimProject
         {
             if (_sendIng)
             {
-                String a = "@";
-                if (_fire)
+                if (!_manual)
                 {
-                    a = "!";
-                    _fire = false;
+                    String a = "@";
+                    if (_fire)
+                    {
+                        a = "!";
+                        _fire = false;
+                    }
+                    int xError = (int)(320 - objPoint.X);
+                    int yError = (int)(240 - objPoint.Y);
+                    if (xError == 320 && yError == 240)
+                    { xError = 0; yError = 0; }
+                    #region Text delegate
+                    SetText settext = new SetText(TextChange);
+                    string center = "Center:" + ((int)objPoint.X).ToString("D3") + "," + ((int)objPoint.Y).ToString("D3");
+                    string error = "Error:" + xError.ToString("D3") + "," + yError.ToString("D3");
+                    IAsyncResult aResult = this.BeginInvoke(settext, center, error, reciveddata);
+                    aResult.AsyncWaitHandle.WaitOne(1);
+                    this.EndInvoke(aResult);
+                    #endregion
+                    if (xError >= 0)
+                    {
+                        a += "+";
+                    }
+                    else
+                    {
+                        a += "-";
+                    }
+                    a += Math.Abs(xError).ToString("D3");
+                    if (yError >= 0)
+                    {
+                        a += "+";
+                    }
+                    else
+                    {
+                        a += "-";
+                    }
+                    a += Math.Abs(yError).ToString("D3");
+                    serialPort1.Write(a);
+                    _sendIng = false; 
                 }
-                int xError = (int)(320 - objPoint.X);
-                int yError = (int)(240 - objPoint.Y);
-                if (xError == 320 && yError == 240)
-                { xError = 0; yError = 0; }
-                #region Text delegate
-                SetText settext = new SetText(TextChange);
-                string center = "Center:" + ((int)objPoint.X).ToString("D3") + "," + ((int)objPoint.Y).ToString("D3");
-                string error = "Error:" + xError.ToString("D3") + "," + yError.ToString("D3");
-                IAsyncResult aResult = this.BeginInvoke(settext, center, error, reciveddata);
-                aResult.AsyncWaitHandle.WaitOne(1);
-                this.EndInvoke(aResult);
-                #endregion
-                if (xError >= 0)
-                {
-                    a += "+";
-                }
-                else
-                {
-                    a += "-";
-                }
-                a += Math.Abs(xError).ToString("D3");
-                if (yError >= 0)
-                {
-                    a += "+";
-                }
-                else
-                {
-                    a += "-";
-                }
-                a += Math.Abs(yError).ToString("D3");
-                serialPort1.Write(a);
-                _sendIng = false;
             }
         }
 
@@ -486,7 +494,7 @@ namespace AutoAimProject
         }
         public static void RemoteControl(string command)
         {
-            //if(_sendIng)
+            if(serialPort1.IsOpen)
             {
                 switch (command)
                 {
@@ -495,6 +503,8 @@ namespace AutoAimProject
                     case "/UP/": serialPort1.Write("[UUUUUUU]"); break;
                     case "/DOWN/": serialPort1.Write("[DDDDDDD]"); break;
                     case "/FIRE/": serialPort1.Write("[FFFFFFF]"); break;
+                    case "/MANUAL/":_manual = true; break;
+                    case "/AUTO/": _manual = false; break;
                 }
             }
         }

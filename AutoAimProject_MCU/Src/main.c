@@ -51,8 +51,8 @@
 #include "usbd_cdc.h"
 #include "usbd_cdc_if.h"
 #include "my_pid.h"
-#define XDEAD 180
-#define YDEAD 0
+#define XDEAD 170
+#define YDEAD 170
 #define XMAX 600
 #define XMIN -600
 #define YMAX 1000
@@ -68,7 +68,7 @@ typedef struct
     int xError;
     int yError;
     _Bool fireflag;
-	 _Bool manualflag;
+    _Bool manualflag;
 } MotorState;
 MotorState mstate = {0, 0, 0};
 uint8_t UserTxBuffer[] = "#00000000";
@@ -103,7 +103,7 @@ void ManualControl(char dir);
 /* protocal */
 MotorState GetStates(uint8_t * RecieveData)
 {
-    MotorState mstemp = {0, 0, 0,0};
+    MotorState mstemp = {0, 0, 0, 0};
 
     if(RecieveData[0] == '@' || RecieveData[0] == '!') //error
     {
@@ -136,8 +136,9 @@ MotorState GetStates(uint8_t * RecieveData)
 
     else if(RecieveData[0] == '[') //manual
     {
-				mstemp.manualflag=1;
+        mstemp.manualflag = 1;
         ManualControl(RecieveData[4]);
+        memset(RecieveData, 0, 9);
     }
 
     //memset(RecieveData, 0, 9);
@@ -147,18 +148,25 @@ MotorState GetStates(uint8_t * RecieveData)
 
 void ManualControl(char dir)
 {
+    PID_SetParam(&XPID, p, i, d, 1);
+    PID_SetParam(&XPID, p, i, d, 1);
+
     switch(dir)
     {
-    case 'L':USER_TIM1_SetPWM(TIM_CHANNEL_2, 4500);
+    case 'L':
+        XPIDout = 500;
         break;
 
-    case 'R':USER_TIM1_SetPWM(TIM_CHANNEL_2, 5500);
+    case 'R':
+        XPIDout = -600;
         break;
 
-    case 'U':USER_TIM1_SetPWM(TIM_CHANNEL_3, 4500);
+    case 'U':
+        YPIDout = 500;
         break;
 
-    case 'D':USER_TIM1_SetPWM(TIM_CHANNEL_3, 5500);
+    case 'D':
+        YPIDout = -500;
         break;
     }
 }
@@ -330,53 +338,44 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     {
         if(period == 1)
         {
+            XPIDout = 0;
+            YPIDout = 0;
             mstate = GetStates(UserRxData);
             PID_SetParam(&XPID, p, i, d, 0);
-            XPIDout = PID_Control(&XPID, mstate.xError);
-            YPIDout = PID_Control(&YPID, mstate.yError);
+
+            //PID_SetParam(&YPID, p, i, d, 0);
+            if(!mstate.manualflag)
+            {
+                XPIDout = PID_Control(&XPID, mstate.xError);
+                YPIDout = PID_Control(&YPID, mstate.yError);
+            }
 
         }
 
         if(period == 2)
         {
-            if(XPIDout > 0)
-            {
-                XPIDout += XDEAD;
-            }
+            XPIDout += XPIDout > 0 ? XDEAD : 0;
 
-            if(XPIDout < 0)
-            {
-                XPIDout -= XDEAD;
-            }
+            XPIDout -= XPIDout < 0 ? XDEAD : 0;
+
+            YPIDout += YPIDout > 0 ? YDEAD : 0;
+
+            YPIDout -= YPIDout < 0 ? YDEAD : 0;
 
 
-            if(XPIDout > XMAX)
-            {
-                XPIDout = XMAX;
-            }
+            XPIDout = XPIDout > XMAX ? XMAX : XPIDout;
 
-            if(XPIDout < XMIN)
-            {
-                XPIDout = XMIN;
-            }
+            XPIDout = XPIDout < XMIN ? XMIN : XPIDout;
 
-            if(YPIDout > YMAX)
-            {
-                YPIDout = YMAX;
-            }
+            YPIDout = YPIDout > YMAX ? YMAX : YPIDout;
 
-            if(YPIDout < YMIN)
-            {
-                YPIDout = YMIN;
-            }
+            YPIDout = YPIDout < YMIN ? YMIN : YPIDout;
 
             XPWM = 5000 + XPIDout;
             YPWM = 5000 + YPIDout;
-						if(!mstate.manualflag)
-						{
+
             USER_TIM1_SetPWM(TIM_CHANNEL_2, XPWM);
             USER_TIM1_SetPWM(TIM_CHANNEL_3, YPWM);
-						}
         }
 
         if(period >= 3)

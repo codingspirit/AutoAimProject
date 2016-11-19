@@ -1,5 +1,5 @@
-#define IntegralMAX 200
-#define IntegralMIN -200
+#define IntegralMAX 180
+#define IntegralMIN -180
 typedef struct
 {
     float error[3];
