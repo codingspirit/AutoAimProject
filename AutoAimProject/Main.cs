@@ -40,7 +40,7 @@ namespace AutoAimProject
         private static SerialPort serialPort1 = new SerialPort();
         static string reciveddata;
         private DateTime lasttime;
-        private int sendFPSLimit = 2;
+        private int sendFPSLimit = 5;
         public Main()
         {
             InitializeComponent();
