@@ -120,8 +120,13 @@ namespace AutoAimProject
                     if (clientList[i].Name == clientname)
                     {
                         clientList[i].socket.BeginSend(data, 0, data.Length, SocketFlags.None, callback, clientList[i]);
-                        msg = String.Format("To[{0}]:{1}", clientList[i].socket.RemoteEndPoint.ToString(), Encoding.UTF8.GetString(data));
-                        SendEvent(msg, new EventArgs());
+                        if (data.Length < 100)
+                        {
+                            msg = String.Format("To[{0}]:{1}", clientList[i].socket.RemoteEndPoint.ToString(), Encoding.UTF8.GetString(data));
+                            SendEvent(msg, new EventArgs());
+                        }
+                        else//long data such as picture
+                            msg = String.Format("To[{0}]:filelength:{1}", clientList[i].socket.RemoteEndPoint.ToString(), data.Length);
                     }
 
                 }

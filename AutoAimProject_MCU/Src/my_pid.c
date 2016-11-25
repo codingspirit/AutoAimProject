@@ -1,9 +1,11 @@
 #include "my_pid.h"
-void PID_SetParam(pid_instance *s, float Kp, float Ki, float Kd, _Bool resetflag)
+void PID_SetParam(pid_instance *s, float Kp, float Ki, float Kd, int IntegralMAX, int IntegralMIN, _Bool resetflag)
 {
     s->Kp = Kp;
     s->Ki = Ki;
     s->Kd = Kd;
+    s->IntegralMAX = IntegralMAX;
+    s->IntegralMIN = IntegralMIN;
 
     if(resetflag)
     {
@@ -17,11 +19,8 @@ float PID_Control(pid_instance *s, float error)
     s->Proportional = s->Kp * error;
     s->Integral += s->Ki * error;
 
-    if(s->Integral > IntegralMAX)
-        s->Integral = IntegralMAX;
-
-    if(s->Integral < IntegralMIN)
-        s->Integral = IntegralMIN;
+    s->Integral = s->Integral > s->IntegralMAX ? s->IntegralMAX : s->Integral;
+    s->Integral = s->Integral < s->IntegralMIN ? s->IntegralMIN : s->Integral;
 
     return (s->Proportional + s->Integral + s->Derivative);
 }

@@ -39,6 +39,8 @@ namespace AutoAimProject
         private PointF objPoint = new PointF(0, 0);
         private static SerialPort serialPort1 = new SerialPort();
         static string reciveddata;
+        private DateTime lasttime;
+        private int sendFPSLimit = 2;
         public Main()
         {
             InitializeComponent();
@@ -52,6 +54,14 @@ namespace AutoAimProject
                 if (!_selectIng && !_autoaim)
                 {
                     imageBoxCam.Image = captureget;
+                    if (FrameProcessed != null)
+                    {
+                        if ((DateTime.Now - lasttime).Milliseconds > (1000 / sendFPSLimit))
+                        {
+                            FrameProcessed(imageBoxCam.Image.Bitmap, new EventArgs());
+                            lasttime = DateTime.Now;
+                        }
+                    }
                 }
                 if (!_selectIng && _autoaim)
                 {
@@ -70,6 +80,14 @@ namespace AutoAimProject
                         }
                         _sendIng = true;
                         imageBoxCam.Image = frame;
+                        if (FrameProcessed != null)
+                        {
+                            if ((DateTime.Now - lasttime).Milliseconds > (1000 / sendFPSLimit))
+                            {
+                                FrameProcessed(frame.ToBitmap(), new EventArgs());
+                                lasttime = DateTime.Now;
+                            }
+                        }
                         imageBoxHue.Image = objTracking.hue.Resize(imageBoxHue.Width, imageBoxHue.Height, Inter.Area);
                         imageBoxMask.Image = objTracking.mask.Resize(imageBoxMask.Width, imageBoxMask.Height, Inter.Area);
                         imageBoxBack.Image = objTracking.backprojection.Resize(imageBoxBack.Width, imageBoxBack.Height, Inter.Area);
@@ -324,6 +342,7 @@ namespace AutoAimProject
             }
             FormRemote remoteForm = new FormRemote();
             remoteForm.Show();
+            lasttime = DateTime.Now;
         }
         #endregion
 
@@ -378,7 +397,7 @@ namespace AutoAimProject
             else
             {
                 DateTime t1 = DateTime.Now;
-                while ((DateTime.Now-t1).Milliseconds<15)
+                while ((DateTime.Now - t1).Milliseconds < 15)
                 {
                     serialPort1.Write("@+000+000");
                 }
@@ -452,7 +471,7 @@ namespace AutoAimProject
                     }
                     a += Math.Abs(yError).ToString("D3");
                     serialPort1.Write(a);
-                    _sendIng = false; 
+                    _sendIng = false;
                 }
             }
         }
@@ -494,7 +513,7 @@ namespace AutoAimProject
         }
         public static void RemoteControl(string command)
         {
-            if(serialPort1.IsOpen)
+            if (serialPort1.IsOpen)
             {
                 switch (command)
                 {
@@ -503,10 +522,12 @@ namespace AutoAimProject
                     case "/UP/": serialPort1.Write("[UUUUUUU]"); break;
                     case "/DOWN/": serialPort1.Write("[DDDDDDD]"); break;
                     case "/FIRE/": serialPort1.Write("[FFFFFFF]"); break;
-                    case "/MANUAL/":_manual = true; break;
+                    case "/MANUAL/": _manual = true; break;
                     case "/AUTO/": _manual = false; break;
                 }
             }
         }
+        public delegate void FrameEventHandler(object sender, EventArgs e);
+        public static event FrameEventHandler FrameProcessed;// event to fire send
     }
 }

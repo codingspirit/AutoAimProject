@@ -22,3 +22,4 @@ E:\Graduation Project\AutoAimProject\AutoAimProject\obj\x64\Debug\AutoAimProject
 E:\Graduation Project\AutoAimProject\AutoAimProject\obj\x64\Debug\AutoAimProject.pdb
 E:\Graduation Project\AutoAimProject\AutoAimProject\obj\x64\Debug\AutoAimProject.FormRemote.resources
 E:\Graduation Project\AutoAimProject\AutoAimProject\obj\x64\Debug\AutoAimProject.csprojResolveAssemblyReference.cache
+E:\Graduation Project\AutoAimProject\AutoAimProject\bin\x64\Debug\ICSharpCode.SharpZipLib.dll

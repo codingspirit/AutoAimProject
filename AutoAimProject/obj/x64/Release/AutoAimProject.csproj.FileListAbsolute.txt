@@ -22,3 +22,4 @@ E:\Graduation Project\AutoAimProject\AutoAimProject\obj\x64\Release\AutoAimProje
 E:\Graduation Project\AutoAimProject\AutoAimProject\obj\x64\Release\AutoAimProject.csproj.GenerateResource.Cache
 E:\Graduation Project\AutoAimProject\AutoAimProject\obj\x64\Release\AutoAimProject.exe
 E:\Graduation Project\AutoAimProject\AutoAimProject\obj\x64\Release\AutoAimProject.pdb
+E:\Graduation Project\AutoAimProject\AutoAimProject\bin\x64\Release\ICSharpCode.SharpZipLib.dll

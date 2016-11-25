@@ -51,12 +51,14 @@
 #include "usbd_cdc.h"
 #include "usbd_cdc_if.h"
 #include "my_pid.h"
-#define XDEAD 170
-#define YDEAD 170
+#define XLDEAD 170  //left
+#define XRDEAD 170  //right
+#define YUDEAD 0  //up
+#define YDDEAD 2000  //down
 #define XMAX 600
 #define XMIN -600
-#define YMAX 1000
-#define YMIN -1000
+#define YMAX 200
+#define YMIN -3000
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -148,8 +150,8 @@ MotorState GetStates(uint8_t * RecieveData)
 
 void ManualControl(char dir)
 {
-    PID_SetParam(&XPID, p, i, d, 1);
-    PID_SetParam(&XPID, p, i, d, 1);
+    PID_SetParam(&XPID, p, i, d, XIntegralMAX, XIntegralMIN, 1);
+    PID_SetParam(&YPID, p, i, d, YIntegralMAX, YIntegralMIN, 1);
 
     switch(dir)
     {
@@ -166,7 +168,7 @@ void ManualControl(char dir)
         break;
 
     case 'D':
-        YPIDout = -500;
+        YPIDout = -1000;
         break;
     }
 }
@@ -220,9 +222,9 @@ int main(void)
     MX_TIM2_Init();
 
     /* USER CODE BEGIN 2 */
-    PID_SetParam(&XPID, p, i, d, 1);
-    PID_SetParam(&YPID, p, i, d, 1);
-    HAL_TIM_Base_Start_IT(&htim2);
+    PID_SetParam(&XPID, p, i, d, XIntegralMAX, XIntegralMIN, 1);
+    PID_SetParam(&YPID, p, i, d, YIntegralMAX, YIntegralMIN, 1);
+    //HAL_TIM_Base_Start_IT(&htim2);
     /* USER CODE END 2 */
 
     /* Infinite loop */
@@ -304,31 +306,33 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
         if(GPIO_Pin == KEY1_Pin)
         {
             CDC_Transmit_FS(UserTxBuffer, sizeof(UserTxBuffer));
-            HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_3);
-            USER_TIM1_SetPWM(TIM_CHANNEL_2, 5300);
+            HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
+            USER_TIM1_SetPWM(TIM_CHANNEL_2, 5400);
         }
 
         if(GPIO_Pin == KEY2_Pin)
         {
-            USER_TIM1_SetPWM(TIM_CHANNEL_2, 4700);
+            USER_TIM1_SetPWM(TIM_CHANNEL_2, 4600);
             HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
         }
 
         if(GPIO_Pin == KEY3_Pin)
         {
-            USER_TIM1_SetPWM(TIM_CHANNEL_3, 4500);
+            USER_TIM1_SetPWM(TIM_CHANNEL_3, 2800);
+            HAL_GPIO_TogglePin(LED2_GPIO_Port, LED2_Pin);
         }
 
         if(GPIO_Pin == KEY4_Pin)
         {
-            USER_TIM1_SetPWM(TIM_CHANNEL_3, 5500);
+            USER_TIM1_SetPWM(TIM_CHANNEL_3, 5300);
+            HAL_GPIO_TogglePin(LED2_GPIO_Port, LED2_Pin);
         }
     }
 
     else if(HAL_GPIO_ReadPin(KEY1_GPIO_Port, GPIO_Pin))
     {
         USER_TIM1_SetPWM(TIM_CHANNEL_2, 5000);
-        USER_TIM1_SetPWM(TIM_CHANNEL_3, 5000);
+        USER_TIM1_SetPWM(TIM_CHANNEL_3, 4000);
     }
 }
 
@@ -341,9 +345,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
             XPIDout = 0;
             YPIDout = 0;
             mstate = GetStates(UserRxData);
-            PID_SetParam(&XPID, p, i, d, 0);
+            PID_SetParam(&XPID, p, i, d, XIntegralMAX, XIntegralMIN, 0);
+            PID_SetParam(&YPID, p*3, i*2, d, YIntegralMAX, YIntegralMIN, 0);
 
-            //PID_SetParam(&YPID, p, i, d, 0);
             if(!mstate.manualflag)
             {
                 XPIDout = PID_Control(&XPID, mstate.xError);
@@ -354,13 +358,13 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
         if(period == 2)
         {
-            XPIDout += XPIDout > 0 ? XDEAD : 0;
+            XPIDout += XPIDout > 0 ? XLDEAD : 0;
 
-            XPIDout -= XPIDout < 0 ? XDEAD : 0;
+            XPIDout -= XPIDout < 0 ? XRDEAD : 0;
 
-            YPIDout += YPIDout > 0 ? YDEAD : 0;
+            YPIDout += YPIDout > 0 ? YUDEAD : 0;
 
-            YPIDout -= YPIDout < 0 ? YDEAD : 0;
+            YPIDout -= YPIDout < 0 ? YDDEAD : 0;
 
 
             XPIDout = XPIDout > XMAX ? XMAX : XPIDout;

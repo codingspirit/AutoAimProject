@@ -1,13 +1,18 @@
-﻿using System;
+﻿using Emgu.CV;
+using Emgu.CV.Structure;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 
 namespace AutoAimProject
 {
@@ -39,6 +44,7 @@ namespace AutoAimProject
                 server.Client_ConnectEvent += new SocketServer.ServerEventHandler(AddClient);
                 server.ReceiveEvent += new SocketServer.ServerEventHandler(SocketReceived);
                 server.SendEvent += new SocketServer.ServerEventHandler(SocketSended);
+                Main.FrameProcessed += new Main.FrameEventHandler(FrameReceived);
             }
             if (server != null && server.IsRunning == false)
             {
@@ -78,12 +84,31 @@ namespace AutoAimProject
             {
                 RemoteCommand remotecommand = new RemoteCommand(Main.RemoteControl);
                 int s1 = ((string)sender).IndexOf("/");
-                int s2= ((string)sender).LastIndexOf("/");
-                string cmd = ((string)sender).Substring(s1, s2-s1+1);
+                int s2 = ((string)sender).LastIndexOf("/");
+                string cmd = ((string)sender).Substring(s1, s2 - s1 + 1);
                 remotecommand(cmd);
             }
             listBoxState.Items.Add((string)sender);
             listBoxState.SelectedIndex = listBoxState.Items.Count - 1;
+        }
+        private void FrameReceived(object sender, EventArgs e)
+        {
+            if (server.IsRunning)
+            {
+                if (InvokeRequired)
+                {
+                    ServerHandler mydelgate = new ServerHandler(FrameReceived);
+                    this.Invoke(mydelgate, new object[] { sender, e });
+                    return;
+                }
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    (sender as Bitmap).Save(stream, ImageFormat.Bmp);
+                    byte[] imagebyte = new byte[stream.Length];
+                    imagebyte = stream.ToArray();
+                    server.Send(comboBoxClient.Text, imagebyte);
+                }
+            }
         }
         private void SocketSended(object sender, EventArgs e)
         {
@@ -93,6 +118,7 @@ namespace AutoAimProject
                 this.Invoke(mydelgate, new object[] { sender, e });
                 return;
             }
+            if(!((string)sender).Contains("filelength"))
             listBoxState.Items.Add((string)sender);
         }
 
@@ -108,6 +134,24 @@ namespace AutoAimProject
         private void buttonSend_Click(object sender, EventArgs e)
         {
             server.Send(comboBoxClient.Text, Encoding.UTF8.GetBytes(textBoxSendText.Text));
+        }
+        public static byte[] ZipByte(byte[] bytes)
+        {
+            if (bytes == null)
+            {
+                return null;
+            }
+            MemoryStream ms = new MemoryStream();
+            using (DeflaterOutputStream zStream = new DeflaterOutputStream(ms))
+            {
+                zStream.Write(bytes, 0, bytes.Length);
+                zStream.Finish();
+                zStream.Close();
+            }
+
+            byte[] result = ms.ToArray();
+            ms.Close();
+            return result;
         }
     }
 }
