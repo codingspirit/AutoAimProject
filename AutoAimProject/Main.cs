@@ -430,7 +430,7 @@ namespace AutoAimProject
         public delegate void SetText(string a, string b, string c);//TextChange delegate
         private void ProcessSend(object sender, DoWorkEventArgs e)
         {
-            if (_sendIng)
+            if (_sendIng && serialPort1.IsOpen)
             {
                 if (!_manual)
                 {

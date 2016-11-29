@@ -51,12 +51,12 @@
 #include "usbd_cdc.h"
 #include "usbd_cdc_if.h"
 #include "my_pid.h"
-#define XLDEAD 170  //left
-#define XRDEAD 170  //right
+#define XLDEAD 180  //left
+#define XRDEAD 250  //right
 #define YUDEAD 0  //up
-#define YDDEAD 2000  //down
+#define YDDEAD 0  //down
 #define XMAX 600
-#define XMIN -600
+#define XMIN -650
 #define YMAX 200
 #define YMIN -3000
 /* USER CODE END Includes */
@@ -164,11 +164,11 @@ void ManualControl(char dir)
         break;
 
     case 'U':
-        YPIDout = 500;
+        YPIDout = 1000;
         break;
 
     case 'D':
-        YPIDout = -1000;
+        YPIDout = -500;
         break;
     }
 }
@@ -224,7 +224,7 @@ int main(void)
     /* USER CODE BEGIN 2 */
     PID_SetParam(&XPID, p, i, d, XIntegralMAX, XIntegralMIN, 1);
     PID_SetParam(&YPID, p, i, d, YIntegralMAX, YIntegralMIN, 1);
-    //HAL_TIM_Base_Start_IT(&htim2);
+    HAL_TIM_Base_Start_IT(&htim2);
     /* USER CODE END 2 */
 
     /* Infinite loop */
@@ -346,7 +346,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
             YPIDout = 0;
             mstate = GetStates(UserRxData);
             PID_SetParam(&XPID, p, i, d, XIntegralMAX, XIntegralMIN, 0);
-            PID_SetParam(&YPID, p*3, i*2, d, YIntegralMAX, YIntegralMIN, 0);
+            PID_SetParam(&YPID, p, i, d, YIntegralMAX, YIntegralMIN, 0);
 
             if(!mstate.manualflag)
             {
@@ -376,7 +376,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
             YPIDout = YPIDout < YMIN ? YMIN : YPIDout;
 
             XPWM = 5000 + XPIDout;
-            YPWM = 5000 + YPIDout;
+            YPWM = 4000 + YPIDout;
 
             USER_TIM1_SetPWM(TIM_CHANNEL_2, XPWM);
             USER_TIM1_SetPWM(TIM_CHANNEL_3, YPWM);

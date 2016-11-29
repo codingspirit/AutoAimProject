@@ -1,7 +1,7 @@
-#define XIntegralMAX 180
-#define XIntegralMIN -180
+#define XIntegralMAX 190
+#define XIntegralMIN -200
 #define YIntegralMAX 180
-#define YIntegralMIN -500
+#define YIntegralMIN -180
 typedef struct
 {
     float error[3];
