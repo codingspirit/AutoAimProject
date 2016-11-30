@@ -26,8 +26,8 @@ namespace AutoAimProject
         private bool _captureIng = false;
         static bool _sendIng = false;
         static bool _manual = false;
+        static bool _fire = false;
         private bool _selectEd = false;
-        private bool _fire = false;
         private bool _autoaim = false;
         private bool _selectIng = false;
         private Mat captureget = new Mat();
@@ -521,7 +521,7 @@ namespace AutoAimProject
                     case "/RIGHT/": serialPort1.Write("[RRRRRRR]"); break;
                     case "/UP/": serialPort1.Write("[UUUUUUU]"); break;
                     case "/DOWN/": serialPort1.Write("[DDDDDDD]"); break;
-                    case "/FIRE/": serialPort1.Write("[FFFFFFF]"); break;
+                    case "/FIRE/": _fire = true; break;
                     case "/MANUAL/": _manual = true; break;
                     case "/AUTO/": _manual = false; break;
                 }

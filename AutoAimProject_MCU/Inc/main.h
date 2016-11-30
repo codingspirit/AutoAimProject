@@ -63,6 +63,8 @@
 #define KEY3_GPIO_Port GPIOF
 #define KEY4_Pin GPIO_PIN_9
 #define KEY4_GPIO_Port GPIOF
+#define FIRE_Pin GPIO_PIN_5
+#define FIRE_GPIO_Port GPIOG
 #define LED3_Pin GPIO_PIN_9
 #define LED3_GPIO_Port GPIOG
 /* USER CODE BEGIN Private defines */

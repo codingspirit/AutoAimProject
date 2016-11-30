@@ -173,11 +173,6 @@
       <TargetDriverDllRegistry>
         <SetRegEntry>
           <Number>0</Number>
-          <Key>DLGUARM</Key>
-          <Name>/</Name>
-        </SetRegEntry>
-        <SetRegEntry>
-          <Number>0</Number>
           <Key>ARMRTXEVENTFLAGS</Key>
           <Name>-L70 -Z18 -C0 -M0 -T1</Name>
         </SetRegEntry>
@@ -211,9 +206,9 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>354</LineNumber>
+          <LineNumber>390</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134225922</Address>
+          <Address>134226058</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -222,7 +217,7 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>../Src/main.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\AutoAimProject_MCU\../Src/main.c\354</Expression>
+          <Expression>\\AutoAimProject_MCU\../Src/main.c\390</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>

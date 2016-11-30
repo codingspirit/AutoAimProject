@@ -52,13 +52,14 @@
 #include "usbd_cdc_if.h"
 #include "my_pid.h"
 #define XLDEAD 180  //left
-#define XRDEAD 250  //right
+#define XRDEAD 200  //right
 #define YUDEAD 0  //up
 #define YDDEAD 0  //down
 #define XMAX 600
-#define XMIN -650
-#define YMAX 200
-#define YMIN -3000
+#define XMIN -750
+#define YMAX 1000
+#define YMIN -1000
+#define MANUALDELAY 2
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -81,6 +82,7 @@ static int XPIDout = 0;
 static int YPIDout = 0;
 static float p = 0, i = 0, d = 0;
 int period = 0;
+int manualdelay = 0;
 
 /* USER CODE END PV */
 
@@ -107,6 +109,11 @@ MotorState GetStates(uint8_t * RecieveData)
 {
     MotorState mstemp = {0, 0, 0, 0};
 
+    if(mstate.fireflag && manualdelay)
+    {
+        mstemp.fireflag = 1;
+    }
+
     if(RecieveData[0] == '@' || RecieveData[0] == '!') //error
     {
         mstemp.xError = (RecieveData[2] - 48) * 100 + (RecieveData[3] - 48) * 10 + (RecieveData[4] - 48);
@@ -125,6 +132,7 @@ MotorState GetStates(uint8_t * RecieveData)
 
         if(RecieveData[0] == '!')//fire
         {
+            manualdelay = 10;
             mstemp.fireflag = 1;
         }
     }
@@ -138,9 +146,14 @@ MotorState GetStates(uint8_t * RecieveData)
 
     else if(RecieveData[0] == '[') //manual
     {
+        if(!mstate.manualflag)
+            manualdelay = MANUALDELAY;
+
         mstemp.manualflag = 1;
         ManualControl(RecieveData[4]);
-        memset(RecieveData, 0, 9);
+
+        if(!manualdelay)
+            memset(RecieveData, 0, 9);
     }
 
     //memset(RecieveData, 0, 9);
@@ -170,6 +183,7 @@ void ManualControl(char dir)
     case 'D':
         YPIDout = -500;
         break;
+
     }
 }
 
@@ -342,6 +356,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     {
         if(period == 1)
         {
+            if(manualdelay > 0)
+                manualdelay--;
+
             XPIDout = 0;
             YPIDout = 0;
             mstate = GetStates(UserRxData);
@@ -376,10 +393,20 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
             YPIDout = YPIDout < YMIN ? YMIN : YPIDout;
 
             XPWM = 5000 + XPIDout;
-            YPWM = 4000 + YPIDout;
+            YPWM = 5000 + YPIDout;
 
             USER_TIM1_SetPWM(TIM_CHANNEL_2, XPWM);
             USER_TIM1_SetPWM(TIM_CHANNEL_3, YPWM);
+
+            if(mstate.fireflag)
+            {
+                HAL_GPIO_WritePin(FIRE_GPIO_Port, FIRE_Pin, GPIO_PIN_SET);
+            }
+
+            else
+            {
+                HAL_GPIO_WritePin(FIRE_GPIO_Port, FIRE_Pin, GPIO_PIN_RESET);
+            }
         }
 
         if(period >= 3)
