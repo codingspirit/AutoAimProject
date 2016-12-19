@@ -399,7 +399,14 @@ namespace AutoAimProject
                 DateTime t1 = DateTime.Now;
                 while ((DateTime.Now - t1).Milliseconds < 15)
                 {
-                    serialPort1.Write("@+000+000");
+                    try
+                    {
+                        serialPort1.Write("@+000+000");
+                    }
+                    catch (Exception)
+                    {
+                        serialPort1.Close();
+                    }
                 }
                 serialPort1.Close();
             }
@@ -470,8 +477,18 @@ namespace AutoAimProject
                         a += "-";
                     }
                     a += Math.Abs(yError).ToString("D3");
-                    serialPort1.Write(a);
-                    _sendIng = false;
+                    try
+                    {
+                        serialPort1.Write(a);
+                    }
+                    catch (Exception)
+                    {
+                        serialPort1.DiscardOutBuffer();
+                    }
+                    finally
+                    {
+                        _sendIng = false;
+                    }
                 }
             }
         }
@@ -498,8 +515,8 @@ namespace AutoAimProject
                 {
                     serialPort1.StopBits = StopBits.Two;
                 }
-                serialPort1.ReadTimeout = 500;
-                serialPort1.WriteTimeout = 500;
+                serialPort1.ReadTimeout = 200;
+                serialPort1.WriteTimeout = 200;
             }
             catch (Exception)
             {
