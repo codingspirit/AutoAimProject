@@ -59,3 +59,4 @@ autoaim_rtos\freertos.o: D:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\strin
 autoaim_rtos\freertos.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h
 autoaim_rtos\freertos.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h
 autoaim_rtos\freertos.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ctlreq.h
+autoaim_rtos\freertos.o: ../Inc/tim.h

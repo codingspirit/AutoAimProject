@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * File Name          : gpio.c
+  * File Name          : TIM.h
   * Description        : This file provides code for the configuration
-  *                      of all used GPIO pins.
+  *                      of the TIM instances.
   ******************************************************************************
   *
   * Copyright (c) 2016 STMicroelectronics International N.V. 
@@ -41,65 +41,48 @@
   *
   ******************************************************************************
   */
+/* Define to prevent recursive inclusion -------------------------------------*/
+#ifndef __tim_H
+#define __tim_H
+#ifdef __cplusplus
+ extern "C" {
+#endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "gpio.h"
-/* USER CODE BEGIN 0 */
+#include "stm32f4xx_hal.h"
+#include "main.h"
 
-/* USER CODE END 0 */
+/* USER CODE BEGIN Includes */
 
-/*----------------------------------------------------------------------------*/
-/* Configure GPIO                                                             */
-/*----------------------------------------------------------------------------*/
-/* USER CODE BEGIN 1 */
+/* USER CODE END Includes */
 
-/* USER CODE END 1 */
+extern TIM_HandleTypeDef htim1;
+extern TIM_HandleTypeDef htim3;
+extern TIM_HandleTypeDef htim8;
 
-/** Configure pins as 
-        * Analog 
-        * Input 
-        * Output
-        * EVENT_OUT
-        * EXTI
-*/
-void MX_GPIO_Init(void)
-{
+/* USER CODE BEGIN Private defines */
+extern uint32_t TIM1_Count;
+extern uint32_t TIM8_Count;
+/* USER CODE END Private defines */
 
-  GPIO_InitTypeDef GPIO_InitStruct;
+extern void Error_Handler(void);
 
-  /* GPIO Ports Clock Enable */
-  __HAL_RCC_GPIOE_CLK_ENABLE();
-  __HAL_RCC_GPIOH_CLK_ENABLE();
-  __HAL_RCC_GPIOC_CLK_ENABLE();
-  __HAL_RCC_GPIOA_CLK_ENABLE();
-  __HAL_RCC_GPIOG_CLK_ENABLE();
-  __HAL_RCC_GPIOB_CLK_ENABLE();
+void MX_TIM1_Init(void);
+void MX_TIM3_Init(void);
+void MX_TIM8_Init(void);
+                    
+void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
+                                
 
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOE, LED0_Pin|LED1_Pin, GPIO_PIN_SET);
+/* USER CODE BEGIN Prototypes */
+void User_TIM1_SetPluse(uint32_t pluseNum);
+void User_TIM8_SetPluse(uint32_t pluseNum);
+/* USER CODE END Prototypes */
 
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
-
-  /*Configure GPIO pins : PEPin PEPin */
-  GPIO_InitStruct.Pin = LED0_Pin|LED1_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : PtPin */
-  GPIO_InitStruct.Pin = LED2_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(LED2_GPIO_Port, &GPIO_InitStruct);
-
+#ifdef __cplusplus
 }
-
-/* USER CODE BEGIN 2 */
-
-/* USER CODE END 2 */
+#endif
+#endif /*__ tim_H */
 
 /**
   * @}

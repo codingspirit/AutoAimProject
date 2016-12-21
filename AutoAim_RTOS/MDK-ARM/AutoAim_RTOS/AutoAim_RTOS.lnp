@@ -40,6 +40,7 @@
 "autoaim_rtos\stm32f4xx_hal_msp.o"
 "autoaim_rtos\freertos.o"
 "autoaim_rtos\usb_device.o"
+"autoaim_rtos\tim.o"
 "autoaim_rtos\startup_stm32f407xx.o"
 --strict --scatter "AutoAim_RTOS\AutoAim_RTOS.sct"
 --diag_suppress=L6329 --summary_stderr --info summarysizes --map --xref --callgraph --symbols

@@ -48,6 +48,7 @@ autoaim_rtos\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
 autoaim_rtos\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
 autoaim_rtos\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 autoaim_rtos\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
+autoaim_rtos\main.o: ../Inc/tim.h
 autoaim_rtos\main.o: ../Inc/usb_device.h
 autoaim_rtos\main.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h
 autoaim_rtos\main.o: ../Inc/usbd_conf.h

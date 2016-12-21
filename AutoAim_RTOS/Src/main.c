@@ -44,6 +44,7 @@
 #include "main.h"
 #include "stm32f4xx_hal.h"
 #include "cmsis_os.h"
+#include "tim.h"
 #include "usb_device.h"
 #include "gpio.h"
 
@@ -55,7 +56,7 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-
+extern osSemaphoreId myBinarySemPeriodHandle;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -89,6 +90,9 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_TIM1_Init();
+  MX_TIM3_Init();
+  MX_TIM8_Init();
 
   /* USER CODE BEGIN 2 */
 
@@ -104,13 +108,14 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
+    while(1)
+    {
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
 
-  }
+    }
+
   /* USER CODE END 3 */
 
 }
@@ -191,6 +196,35 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     HAL_IncTick();
   }
 /* USER CODE BEGIN Callback 1 */
+    else if(htim->Instance == TIM1)
+    {
+        if(TIM1_Count <= 0)
+        {
+            HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
+        }
+
+        else
+        {
+            User_TIM1_SetPluse(TIM1_Count);
+        }
+    }
+
+    else if(htim->Instance == TIM8)
+    {
+        if(TIM8_Count <= 0)
+        {
+            HAL_TIM_PWM_Stop(&htim8, TIM_CHANNEL_1);
+        }
+
+        else
+        {
+            User_TIM8_SetPluse(TIM8_Count);
+        }
+    }
+		else if(htim->Instance == TIM3)
+		{
+			osSemaphoreRelease(myBinarySemPeriodHandle);
+		}
 
 /* USER CODE END Callback 1 */
 }
@@ -203,10 +237,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler */
-  /* User can add his own implementation to report the HAL error return state */
-  while(1) 
-  {
-  }
+    /* User can add his own implementation to report the HAL error return state */
+    while(1)
+    {
+    }
+
   /* USER CODE END Error_Handler */ 
 }
 
@@ -222,8 +257,8 @@ void Error_Handler(void)
 void assert_failed(uint8_t* file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */
-  /* User can add his own implementation to report the file name and line number,
-    ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+    /* User can add his own implementation to report the file name and line number,
+      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
 
 }

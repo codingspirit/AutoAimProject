@@ -49,13 +49,15 @@
 /* USER CODE BEGIN Includes */
 #include "gpio.h"
 #include "usbd_cdc_if.h"
+#include "tim.h"
 /* USER CODE END Includes */
 
 /* Variables -----------------------------------------------------------------*/
 osThreadId defaultTaskHandle;
+osSemaphoreId myBinarySemPeriodHandle;
 
 /* USER CODE BEGIN Variables */
-
+uint8_t period = 0;
 /* USER CODE END Variables */
 
 /* Function prototypes -------------------------------------------------------*/
@@ -81,6 +83,11 @@ void MX_FREERTOS_Init(void)
     /* USER CODE BEGIN RTOS_MUTEX */
     /* add mutexes, ... */
     /* USER CODE END RTOS_MUTEX */
+
+    /* Create the semaphores(s) */
+    /* definition and creation of myBinarySemPeriod */
+    osSemaphoreDef(myBinarySemPeriod);
+    myBinarySemPeriodHandle = osSemaphoreCreate(osSemaphore(myBinarySemPeriod), 1);
 
     /* USER CODE BEGIN RTOS_SEMAPHORES */
     /* add semaphores, ... */
@@ -111,19 +118,25 @@ void StartDefaultTask(void const * argument)
     MX_USB_DEVICE_Init();
 
     /* USER CODE BEGIN StartDefaultTask */
+    HAL_TIM_Base_Start_IT(&htim3);
+
     /* Infinite loop */
     for(;;)
     {
-        HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
-				CDC_Transmit_FS(UserTxData,DATALENGTH);
-        osDelay(200);
+        osSemaphoreWait(myBinarySemPeriodHandle, osWaitForever);
+        period++;
+
+        if(period == 100)
+        {
+            HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
+            CDC_Transmit_FS(UserTxData, DATALENGTH);
+        }
     }
 
     /* USER CODE END StartDefaultTask */
 }
 
 /* USER CODE BEGIN Application */
-
 /* USER CODE END Application */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
