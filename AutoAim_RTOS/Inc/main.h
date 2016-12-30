@@ -55,6 +55,18 @@
 #define LED0_GPIO_Port GPIOE
 #define LED1_Pin GPIO_PIN_4
 #define LED1_GPIO_Port GPIOE
+#define KEY0_Pin GPIO_PIN_6
+#define KEY0_GPIO_Port GPIOF
+#define KEY1_Pin GPIO_PIN_7
+#define KEY1_GPIO_Port GPIOF
+#define KEY2_Pin GPIO_PIN_8
+#define KEY2_GPIO_Port GPIOF
+#define KEY3_Pin GPIO_PIN_9
+#define KEY3_GPIO_Port GPIOF
+#define DIRX_Pin GPIO_PIN_0
+#define DIRX_GPIO_Port GPIOB
+#define DIRY_Pin GPIO_PIN_1
+#define DIRY_GPIO_Port GPIOB
 #define LED2_Pin GPIO_PIN_9
 #define LED2_GPIO_Port GPIOG
 /* USER CODE BEGIN Private defines */

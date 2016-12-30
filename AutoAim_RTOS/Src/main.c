@@ -56,7 +56,8 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-extern osSemaphoreId myBinarySemPeriodHandle;
+extern osThreadId keysTaskHandle;
+extern osThreadId getStateTaskHandle;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -176,7 +177,31 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+    BaseType_t xHigherPriorityTaskWoken;
 
+    switch(GPIO_Pin)
+    {
+    case KEY0_Pin:
+        xTaskNotifyFromISR(keysTaskHandle, 0x01, eSetBits, &xHigherPriorityTaskWoken);
+        break;
+
+    case KEY1_Pin:
+        xTaskNotifyFromISR(keysTaskHandle, 0x02, eSetBits, &xHigherPriorityTaskWoken);
+        break;
+
+    case KEY2_Pin:
+        xTaskNotifyFromISR(keysTaskHandle, 0x03, eSetBits, &xHigherPriorityTaskWoken);
+        break;
+
+    case KEY3_Pin:
+        xTaskNotifyFromISR(keysTaskHandle, 0x04, eSetBits, &xHigherPriorityTaskWoken);
+        break;
+    }
+
+    portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+}
 /* USER CODE END 4 */
 
 /**
@@ -221,10 +246,13 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
             User_TIM8_SetPluse(TIM8_Count);
         }
     }
-		else if(htim->Instance == TIM3)
-		{
-			osSemaphoreRelease(myBinarySemPeriodHandle);
-		}
+
+    else if(htim->Instance == TIM3)
+    {
+        BaseType_t xHigherPriorityTaskWoken;
+        vTaskNotifyGiveFromISR(getStateTaskHandle, &xHigherPriorityTaskWoken);
+        portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+    }
 
 /* USER CODE END Callback 1 */
 }
