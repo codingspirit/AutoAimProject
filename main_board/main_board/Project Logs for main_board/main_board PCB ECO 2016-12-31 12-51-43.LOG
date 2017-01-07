@@ -1,0 +1,10 @@
+Removed Pin From Net: NetName=PWMX Pin=P4-2
+Removed Pin From Net: NetName=DIRX Pin=P4-3
+Removed Pin From Net: NetName=PWMY Pin=P4-4
+Removed Pin From Net: NetName=DIRY Pin=P4-5
+Added Pin To Net: NetName=PWM1 Pin=P4-2
+Added Pin To Net: NetName=DIR1 Pin=P4-3
+Added Pin To Net: NetName=PWM2 Pin=P4-4
+Added Pin To Net: NetName=DIR2 Pin=P4-5
+Added Room: Name=main
+Added Room: Name=other

@@ -1,0 +1,23 @@
+Removed Pin From Net: NetName=DIRY Pin=R10-1
+Removed Pin From Net: NetName=PWMY Pin=R11-1
+Removed Pin From Net: NetName=DIRX Pin=R12-1
+Removed Pin From Net: NetName=PWMX Pin=R13-1
+Removed Pin From Net: NetName=DIRY Pin=U1-15
+Removed Pin From Net: NetName=PWMY Pin=U1-16
+Removed Pin From Net: NetName=DIRX Pin=U1-17
+Removed Pin From Net: NetName=PWMX Pin=U1-18
+Added Pin To Net: NetName=PWMY Pin=R10-1
+Added Pin To Net: NetName=PWMX Pin=R11-1
+Added Pin To Net: NetName=DIRY Pin=R12-1
+Added Pin To Net: NetName=DIRX Pin=R13-1
+Added Pin To Net: NetName=PWMY Pin=U1-15
+Added Pin To Net: NetName=PWMX Pin=U1-16
+Added Pin To Net: NetName=DIRY Pin=U1-17
+Added Pin To Net: NetName=DIRX Pin=U1-18
+Change Net Name : Old Net Name=DIR1 New Net Name=DIR2
+Change Net Name : Old Net Name=DIR2 New Net Name=PWM2
+Change Net Name : Old Net Name=PWM1 New Net Name=DIR1
+Change Net Name : Old Net Name=PWM2 New Net Name=PWM1
+Added Member To Class: ClassName=main Member=Component C5 Cap
+Added Room: Name=main
+Added Room: Name=other

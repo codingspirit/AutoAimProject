@@ -1,0 +1,10 @@
+Added Pin To Net: NetName=LED1 Pin=U2-1
+Added Pin To Net: NetName=LED2 Pin=U2-2
+Added Pin To Net: NetName=LED3 Pin=U2-3
+Added Pin To Net: NetName=LED4 Pin=U2-4
+Added Pin To Net: NetName=KEY1 Pin=U2-114
+Added Pin To Net: NetName=KEY2 Pin=U2-115
+Added Pin To Net: NetName=KEY3 Pin=U2-116
+Added Pin To Net: NetName=KEY4 Pin=U2-117
+Added Room: Name=main
+Added Room: Name=other

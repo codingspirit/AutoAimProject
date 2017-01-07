@@ -70,7 +70,6 @@ typedef struct
 } MotorState;
 MotorState mstate = {0, 0, 0, 0};
 static int Xpluse = 0, Ypluse = 0;
-uint16_t manualdelay = 0;
 static float p = 0;
 /* USER CODE END Variables */
 
@@ -226,6 +225,12 @@ void StartControlTask(void const * argument)
             Ypluse = (int)(p * mstate.yError);
         }
 
+        else
+        {
+            Xpluse = (int)(0.1 * mstate.xError);
+            Ypluse = (int)(0.1 * mstate.yError);
+        }
+
         //SetUserTxData(5000+Xpluse,5000+Ypluse);
         //CDC_Transmit_FS(UserTxData,9);
         xTaskNotifyGive(outPutTaskHandle);
@@ -238,11 +243,6 @@ void StartControlTask(void const * argument)
 MotorState GetStates(uint8_t * RecieveData)
 {
     MotorState mstemp = {0, 0, 0, 0};
-
-    if(mstate.fireflag && manualdelay)
-    {
-        mstemp.fireflag = 1;
-    }
 
     if(RecieveData[0] == '@' || RecieveData[0] == '!') //error
     {
@@ -262,7 +262,6 @@ MotorState GetStates(uint8_t * RecieveData)
 
         if(RecieveData[0] == '!')//fire
         {
-            manualdelay = FIREDELAY;
             mstemp.fireflag = 1;
         }
     }
@@ -276,14 +275,32 @@ MotorState GetStates(uint8_t * RecieveData)
 
     else if(RecieveData[0] == '[') //manual
     {
-        if(!mstate.manualflag)
-            manualdelay = MANUALDELAY;
+        mstemp.fireflag = 1;
 
-        mstemp.manualflag = 1;
-        //ManualControl(RecieveData[4]);
+        switch(RecieveData[4])
+        {
+        case 'L':
+            mstemp.xError = -20;
+            break;
 
-        if(!manualdelay)
-            memset(RecieveData, 0, 9);
+        case 'R':
+            mstemp.xError = 20;
+            break;
+
+        case 'U':
+            mstemp.yError = -20;
+            break;
+
+        case 'D':
+            mstemp.yError = 20;
+            break;
+
+        case 'F':
+            mstemp.fireflag = 1;
+            break;
+        }
+
+        memset(RecieveData, 0, 9);
     }
 
     //memset(RecieveData, 0, 9);
