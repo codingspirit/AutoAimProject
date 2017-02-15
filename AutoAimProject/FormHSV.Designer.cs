@@ -29,14 +29,17 @@
         private void InitializeComponent()
         {
             this.trackBarVmin = new System.Windows.Forms.TrackBar();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.labelVmin = new System.Windows.Forms.Label();
+            this.labelVmax = new System.Windows.Forms.Label();
             this.trackBarVmax = new System.Windows.Forms.TrackBar();
-            this.label3 = new System.Windows.Forms.Label();
+            this.labelSmin = new System.Windows.Forms.Label();
             this.trackBarSmin = new System.Windows.Forms.TrackBar();
+            this.trackBarBins = new System.Windows.Forms.TrackBar();
+            this.labelBins = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarVmin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarVmax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarSmin)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarBins)).BeginInit();
             this.SuspendLayout();
             // 
             // trackBarVmin
@@ -47,23 +50,23 @@
             this.trackBarVmin.TabIndex = 0;
             this.trackBarVmin.Scroll += new System.EventHandler(this.trackBarVmin_Scroll);
             // 
-            // label1
+            // labelVmin
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(14, 14);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(29, 12);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Vmin";
+            this.labelVmin.AutoSize = true;
+            this.labelVmin.Location = new System.Drawing.Point(14, 14);
+            this.labelVmin.Name = "labelVmin";
+            this.labelVmin.Size = new System.Drawing.Size(29, 12);
+            this.labelVmin.TabIndex = 1;
+            this.labelVmin.Text = "Vmin";
             // 
-            // label2
+            // labelVmax
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(14, 60);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(29, 12);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Vmax";
+            this.labelVmax.AutoSize = true;
+            this.labelVmax.Location = new System.Drawing.Point(14, 60);
+            this.labelVmax.Name = "labelVmax";
+            this.labelVmax.Size = new System.Drawing.Size(29, 12);
+            this.labelVmax.TabIndex = 3;
+            this.labelVmax.Text = "Vmax";
             // 
             // trackBarVmax
             // 
@@ -73,14 +76,14 @@
             this.trackBarVmax.TabIndex = 2;
             this.trackBarVmax.Scroll += new System.EventHandler(this.trackBarVmax_Scroll);
             // 
-            // label3
+            // labelSmin
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(14, 111);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(29, 12);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Smin";
+            this.labelSmin.AutoSize = true;
+            this.labelSmin.Location = new System.Drawing.Point(14, 111);
+            this.labelSmin.Name = "labelSmin";
+            this.labelSmin.Size = new System.Drawing.Size(29, 12);
+            this.labelSmin.TabIndex = 5;
+            this.labelSmin.Text = "Smin";
             // 
             // trackBarSmin
             // 
@@ -90,16 +93,35 @@
             this.trackBarSmin.TabIndex = 4;
             this.trackBarSmin.Scroll += new System.EventHandler(this.trackBarSmin_Scroll);
             // 
+            // trackBarBins
+            // 
+            this.trackBarBins.Location = new System.Drawing.Point(49, 157);
+            this.trackBarBins.Name = "trackBarBins";
+            this.trackBarBins.Size = new System.Drawing.Size(286, 45);
+            this.trackBarBins.TabIndex = 6;
+            this.trackBarBins.Scroll += new System.EventHandler(this.trackBarBins_Scroll);
+            // 
+            // labelBins
+            // 
+            this.labelBins.AutoSize = true;
+            this.labelBins.Location = new System.Drawing.Point(14, 166);
+            this.labelBins.Name = "labelBins";
+            this.labelBins.Size = new System.Drawing.Size(29, 12);
+            this.labelBins.TabIndex = 7;
+            this.labelBins.Text = "Bins";
+            // 
             // FormHSV
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(338, 150);
-            this.Controls.Add(this.label3);
+            this.ClientSize = new System.Drawing.Size(338, 198);
+            this.Controls.Add(this.labelBins);
+            this.Controls.Add(this.trackBarBins);
+            this.Controls.Add(this.labelSmin);
             this.Controls.Add(this.trackBarSmin);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.labelVmax);
             this.Controls.Add(this.trackBarVmax);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.labelVmin);
             this.Controls.Add(this.trackBarVmin);
             this.MinimizeBox = false;
             this.Name = "FormHSV";
@@ -108,6 +130,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBarVmin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarVmax)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarSmin)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarBins)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -116,10 +139,12 @@
         #endregion
 
         private System.Windows.Forms.TrackBar trackBarVmin;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label labelVmin;
+        private System.Windows.Forms.Label labelVmax;
         private System.Windows.Forms.TrackBar trackBarVmax;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label labelSmin;
         private System.Windows.Forms.TrackBar trackBarSmin;
+        private System.Windows.Forms.TrackBar trackBarBins;
+        private System.Windows.Forms.Label labelBins;
     }
 }

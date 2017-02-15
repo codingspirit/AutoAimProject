@@ -56,6 +56,7 @@
             this.parameterSettingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.remoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showCrossToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.controlArea.SuspendLayout();
             this.groupBoxCam.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageBoxCam)).BeginInit();
@@ -274,7 +275,8 @@
             this.advancedSettingToolStripMenuItem,
             this.parameterSettingToolStripMenuItem,
             this.remoteToolStripMenuItem,
-            this.aboutToolStripMenuItem});
+            this.aboutToolStripMenuItem,
+            this.showCrossToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1018, 25);
@@ -324,6 +326,13 @@
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(55, 21);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
+            // showCrossToolStripMenuItem
+            // 
+            this.showCrossToolStripMenuItem.Name = "showCrossToolStripMenuItem";
+            this.showCrossToolStripMenuItem.Size = new System.Drawing.Size(88, 21);
+            this.showCrossToolStripMenuItem.Text = "Show Cross";
+            this.showCrossToolStripMenuItem.Click += new System.EventHandler(this.showCrossToolStripMenuItem_Click);
             // 
             // Main
             // 
@@ -384,6 +393,7 @@
         private System.Windows.Forms.ToolStripMenuItem parameterSettingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem remoteToolStripMenuItem;
         private Emgu.CV.UI.ImageBox imageBoxCam;
+        private System.Windows.Forms.ToolStripMenuItem showCrossToolStripMenuItem;
     }
 }
 

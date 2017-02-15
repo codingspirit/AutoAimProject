@@ -12,7 +12,7 @@ namespace AutoAimProject
 {
     public partial class FormHSV : Form
     {
-        private int vmin = 10, vmax = 255, smin = 30;
+        private int vmin = 10, vmax = 255, smin = 30, bins = 20;
 
         public FormHSV()
         {
@@ -26,38 +26,55 @@ namespace AutoAimProject
         {
             get { return vmax; }
         }
+        public int Getsmin
+        {
+            get { return smin; }
+        }
+        public int Getbins
+        {
+            get { return bins; }
+        }
 
         private void trackBarVmin_Scroll(object sender, EventArgs e)
         {
             vmin = trackBarVmin.Value;
+            labelVmin.Text = "Vmin:" + vmin.ToString();
         }
 
         private void trackBarVmax_Scroll(object sender, EventArgs e)
         {
             vmax = trackBarVmax.Value;
+            labelVmax.Text = "Vmax:" + vmax.ToString();
         }
 
         private void trackBarSmin_Scroll(object sender, EventArgs e)
         {
             smin = trackBarSmin.Value;
+            labelSmin.Text = "Smin:" + smin.ToString();
         }
 
-        public int Getsmin
+        private void trackBarBins_Scroll(object sender, EventArgs e)
         {
-            get { return smin; }
+            bins = trackBarBins.Value;
+            labelBins.Text = "Bins:" + bins.ToString();
         }
+
+
 
         private void FormHSV_Load(object sender, EventArgs e)
         {
-            trackBarVmin.Maximum = 255;
-            trackBarVmax.Maximum = 255;
-            trackBarSmin.Maximum = 255;
+            trackBarVmin.Maximum = 256;
+            trackBarVmax.Maximum = 256;
+            trackBarSmin.Maximum = 256;
+            trackBarBins.Maximum = 60;
             trackBarSmin.Minimum = 0;
             trackBarVmax.Minimum = 0;
             trackBarVmin.Minimum = 0;
+            trackBarBins.Minimum = 1;
             trackBarVmin.Value = vmin;
             trackBarVmax.Value = vmax;
             trackBarSmin.Value = smin;
+            trackBarBins.Value = 16;
         }
     }
 }

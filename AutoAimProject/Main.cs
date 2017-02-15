@@ -27,6 +27,7 @@ namespace AutoAimProject
         static bool _sendIng = false;
         static bool _manual = false;
         static bool _fire = false;
+        static bool _cross = false;
         private bool _selectEd = false;
         private bool _autoaim = false;
         private bool _selectIng = false;
@@ -76,6 +77,10 @@ namespace AutoAimProject
                             RotatedRect result = objTracking.Tracking(frame);
                             frame.Draw(result, new Bgr(255, 0, 255), 2);
                             frame.Draw(new CircleF(result.Center, 5), new Bgr(0, 0, 255), 2);
+                            if(_cross)
+                            {
+                                frame.Draw(new Cross2DF(new PointF(frame.Width/2, frame.Height/2), 200, 100), new Bgr(255, 0, 0),2);
+                            }
                             objPoint = result.Center;
                         }
                         _sendIng = true;
@@ -344,6 +349,11 @@ namespace AutoAimProject
             remoteForm.Show();
             lasttime = DateTime.Now;
         }
+
+        private void showCrossToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _cross = !_cross;
+        }
         #endregion
 
         #region SerialPort
@@ -546,5 +556,7 @@ namespace AutoAimProject
         }
         public delegate void FrameEventHandler(object sender, EventArgs e);
         public static event FrameEventHandler FrameProcessed;// event to fire send
+
+
     }
 }

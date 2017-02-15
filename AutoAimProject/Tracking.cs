@@ -18,13 +18,13 @@ namespace AutoAimProject
         public Image<Gray, Byte> mask;
         private RotatedRect trackbox;
         private Rectangle trackingWindow;
+        private int bins = 16;
         public Track(Image<Bgr, Byte> img, Rectangle ROI)
         {
             trackbox = new RotatedRect();
             mask = new Image<Gray, byte>(img.Width, img.Height);
-            hist = new DenseHistogram(30, new RangeF(0, 180));
+            hist = new DenseHistogram(bins, new RangeF(0, 180));
             hue = new Image<Gray, byte>(img.Width, img.Height);
-            hue._EqualizeHist();
             backprojection = new Image<Gray, byte>(img.Width, img.Height);
             trackingWindow = ROI;
             CalcHist(img);
@@ -33,6 +33,18 @@ namespace AutoAimProject
         public RotatedRect Tracking(Image<Bgr, Byte> image)
         {
             GetFrameHue(image);
+
+            //User changed bins num ,recalculate Hist
+            if (Main._advancedHsv)
+            {
+                if (bins != Main.HsvSetting.Getbins)
+                {
+                    bins = Main.HsvSetting.Getbins;
+                    hist.Dispose();
+                    hist = new DenseHistogram(bins, new RangeF(0, 180));
+                    CalcHist(image);
+                }
+            }
 
             backprojection = hist.BackProject(new Image<Gray, Byte>[] { hue });
 
@@ -54,18 +66,10 @@ namespace AutoAimProject
             // Set tracking object's ROI
             hue.ROI = trackingWindow;
             mask.ROI = trackingWindow;
+            //Calculate Hist
             hist.Calculate(new Image<Gray, Byte>[] { hue }, false, mask);
 
-            // Scale Historgram
-            double max = 0, min = 0, scale = 0;
-            Point minLocations = new Point();
-            Point maxLocations = new Point();
-            CvInvoke.MinMaxLoc(hist,ref min,ref max, ref minLocations, ref maxLocations);
-            if (max != 0)
-            {
-                scale = 255 / max;
-            }
-
+            // Normalize Historgram
             CvInvoke.Normalize(hist, hist, 0, 255, Emgu.CV.CvEnum.NormType.MinMax);
 
             // Clear ROI
@@ -79,8 +83,10 @@ namespace AutoAimProject
             if (hsv != null) hsv.Dispose();
             hsv = image.Convert<Hsv, Byte>();
 
-            // Mask low saturation pixels
-            mask = hsv.Split()[1].ThresholdBinary(new Gray(60), new Gray(255));
+            // Get Hue
+            hue = hsv.Split()[0];
+
+            // if one pixel hsv value In Range,at this pixel mask==0xff,otherwise mask==0x00
             if (Main._advancedHsv)
             {
                 Hsv l = new Hsv(0, Main.HsvSetting.Getsmin, Math.Min(Main.HsvSetting.Getvmin, Main.HsvSetting.Getvmax));
@@ -89,13 +95,10 @@ namespace AutoAimProject
             }
             else
             {
-                Hsv l = new Hsv(0, 30, Math.Min(10, 255));
-                Hsv h = new Hsv(180, 256, Math.Max(10, 255));
+                Hsv l = new Hsv(0, 30, 10);
+                Hsv h = new Hsv(180, 256, 256);
                 mask = hsv.InRange(l, h);
             }
-
-            // Get Hue
-            hue = hsv.Split()[0];
         }
     }
 }
