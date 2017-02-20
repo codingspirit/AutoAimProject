@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using System.Drawing;
+using Emgu.CV.Util;
+using System.Diagnostics;
 
 namespace AutoAimProject
 {
@@ -13,12 +15,23 @@ namespace AutoAimProject
     {
         public Image<Gray, Byte> backprojection;
         public DenseHistogram hist;
-        public Image<Hsv, Byte> hsv;
+        public Image<Hsv, byte> hsv;
         public Image<Gray, Byte> hue;
         public Image<Gray, Byte> mask;
+        public bool _lost = false;
+        public VectorOfVectorOfPoint vvp;
+        public VectorOfVectorOfPoint vvpApprox;
+        double targetDensity = 0;
+        double[] vvpApproxDensity;
+        Rectangle[] vvpApproxRect;
+        public int targetVVPIndex = 0;
         private RotatedRect trackbox;
         private Rectangle trackingWindow;
         private int bins = 16;
+        private Image<Gray, Byte> backcopy;
+        private Stopwatch timer = new Stopwatch();
+
+
         public Track(Image<Bgr, Byte> img, Rectangle ROI)
         {
             trackbox = new RotatedRect();
@@ -26,6 +39,12 @@ namespace AutoAimProject
             hist = new DenseHistogram(bins, new RangeF(0, 180));
             hue = new Image<Gray, byte>(img.Width, img.Height);
             backprojection = new Image<Gray, byte>(img.Width, img.Height);
+
+            // FindContours needed
+            vvp = new VectorOfVectorOfPoint();
+            vvpApprox = new VectorOfVectorOfPoint();
+            backcopy = new Image<Gray, byte>(img.Width, img.Height);
+
             trackingWindow = ROI;
             CalcHist(img);
         }
@@ -34,7 +53,7 @@ namespace AutoAimProject
         {
             GetFrameHue(image);
 
-            //User changed bins num ,recalculate Hist
+            // User changed bins num ,recalculate Hist
             if (Main._advancedHsv)
             {
                 if (bins != Main.HsvSetting.Getbins)
@@ -51,12 +70,52 @@ namespace AutoAimProject
             // Add mask
             backprojection._And(mask);
 
+            // FindContours
+            //CvInvoke.Canny(backprojection, backcopy, 3, 6);
+            backprojection.CopyTo(backcopy);
+            CvInvoke.FindContours(backcopy, vvp, null, Emgu.CV.CvEnum.RetrType.External, Emgu.CV.CvEnum.ChainApproxMethod.ChainApproxNone);
+            int trackArea = trackingWindow.Height * trackingWindow.Width;
+            FindTargetByArea(vvp, trackArea * 0.25, trackArea * 10, ref vvpApprox);
+            vvpApproxDensity = GetVVPDensity(vvpApprox,out vvpApproxRect);
+            targetVVPIndex = FindTargetByOverlap(vvpApprox, trackingWindow);
+            //FindTargetByCenter(vvpApprox, new PointF(trackingWindow.X + trackingWindow.Width / 2, trackingWindow.Y + trackingWindow.Height / 2));
+
+
             // If lost trackbox
-            if (trackingWindow.IsEmpty || trackingWindow.Width == 0 || trackingWindow.Height == 0)
+            if (trackingWindow.IsEmpty || trackingWindow.Width <= 10 || trackingWindow.Height <= 10 || _lost || targetVVPIndex == -1)
             {
-                trackingWindow = new Rectangle(0, 0, 100, 100);
+                if (!timer.IsRunning) 
+                {
+                    timer.Start();
+                }
+                if (timer.ElapsedMilliseconds > 1000)
+                {
+                    _lost = true;
+                }
+                if (timer.ElapsedMilliseconds > 3000) 
+                {
+                    //targetVVPIndex = Array.IndexOf(vvpApproxDensity, vvpApproxDensity.Max());
+                }
+                for (int i = 0; i < vvpApproxDensity.Length; i++)
+                {
+                    if (vvpApproxDensity[i] >= targetDensity) 
+                    {
+                        trackingWindow = vvpApproxRect[i];
+                        _lost = false;
+                        timer.Reset();
+                    }
+                }
             }
-            trackbox = CvInvoke.CamShift(backprojection, ref trackingWindow, new MCvTermCriteria(10, 1));
+            else
+            {
+                trackbox = CvInvoke.CamShift(backprojection, ref trackingWindow, new MCvTermCriteria(10, 1));
+                targetDensity += vvpApproxDensity[targetVVPIndex];
+                targetDensity /= 2;
+                if (timer.IsRunning)
+                {
+                    timer.Reset();
+                }
+            }
             return trackbox;
         }
         private void CalcHist(Image<Bgr, Byte> image)
@@ -66,7 +125,7 @@ namespace AutoAimProject
             // Set tracking object's ROI
             hue.ROI = trackingWindow;
             mask.ROI = trackingWindow;
-            //Calculate Hist
+            // Calculate Hist
             hist.Calculate(new Image<Gray, Byte>[] { hue }, false, mask);
 
             // Normalize Historgram
@@ -99,6 +158,76 @@ namespace AutoAimProject
                 Hsv h = new Hsv(180, 256, 256);
                 mask = hsv.InRange(l, h);
             }
+        }
+        // this method find the  contour in given area region
+        private void FindTargetByArea(VectorOfVectorOfPoint invvp, double areamin, double areamax, ref VectorOfVectorOfPoint outvvp)
+        {
+            int area = 0;
+            outvvp.Clear();
+            for (int i = 0; i < invvp.Size; i++)
+            {
+                using (VectorOfPoint contour = invvp[i])
+                using (VectorOfPoint approxContour = new VectorOfPoint())
+                {
+                    CvInvoke.ApproxPolyDP(contour, approxContour, 5, true);
+                    area = (int)Math.Abs(CvInvoke.ContourArea(approxContour));
+                    //area in given region
+                    if (area > areamin && area < areamax)
+                    {
+                        outvvp.Push(approxContour);
+                    }
+                }
+            }
+        }
+        // this method find the contour which include given point return Index of invvp
+        private int FindTargetByCenter(VectorOfVectorOfPoint invvp, PointF point)
+        {
+            for (int i = 0; i < invvp.Size; i++)
+            {
+                // ponit inside contour
+                if (CvInvoke.PointPolygonTest(invvp[i], point, false) > 0)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+        private int FindTargetByOverlap(VectorOfVectorOfPoint invvp, Rectangle window)
+        {
+            Rectangle boundingRectangle;
+            for (int i = 0; i < invvp.Size; i++)
+            {
+                boundingRectangle = CvInvoke.BoundingRectangle(invvp[i]);
+                if (RectOverlap(boundingRectangle, window) > 0)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+        private double RectOverlap(Rectangle box1, Rectangle box2)
+        {
+            if (box1.X > box2.X + box2.Width) { return 0.0; }
+            if (box1.Y > box2.Y + box2.Height) { return 0.0; }
+            if (box1.X + box1.Width < box2.X) { return 0.0; }
+            if (box1.Y + box1.Height < box2.Y) { return 0.0; }
+            float colInt = Math.Min(box1.X + box1.Width, box2.X + box2.Width) - Math.Max(box1.X, box2.X);
+            float rowInt = Math.Min(box1.Y + box1.Height, box2.Y + box2.Height) - Math.Max(box1.Y, box2.Y);
+            float overlapArea = colInt * rowInt;
+            float area1 = box1.Width * box1.Height;
+            float area2 = box2.Width * box2.Height;
+            return overlapArea / (area1 + area2 - overlapArea);
+        }
+        private double[] GetVVPDensity(VectorOfVectorOfPoint invvp,out Rectangle[] rect)
+        {
+            double[] density = new double[invvp.Size];
+            rect = new Rectangle[invvp.Size];
+            for (int i = 0; i < invvp.Size; i++)
+            {
+                rect[i] = CvInvoke.BoundingRectangle(invvp[i]);
+                density[i] = CvInvoke.Moments(invvp[i]).M00 / (rect[i].Width * rect[i].Height);
+            }
+            return density;
         }
     }
 }

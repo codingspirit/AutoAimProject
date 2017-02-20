@@ -42,6 +42,10 @@
             this.groupBoxCam = new System.Windows.Forms.GroupBox();
             this.imageBoxCam = new Emgu.CV.UI.ImageBox();
             this.groupBoxProcess = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.labelOutpwm = new System.Windows.Forms.Label();
             this.labelError = new System.Windows.Forms.Label();
             this.labelCenter = new System.Windows.Forms.Label();
@@ -57,6 +61,7 @@
             this.remoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showCrossToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.labelMISS = new System.Windows.Forms.Label();
             this.controlArea.SuspendLayout();
             this.groupBoxCam.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageBoxCam)).BeginInit();
@@ -170,6 +175,7 @@
             // 
             // groupBoxCam
             // 
+            this.groupBoxCam.Controls.Add(this.labelMISS);
             this.groupBoxCam.Controls.Add(this.imageBoxCam);
             this.groupBoxCam.Location = new System.Drawing.Point(12, 26);
             this.groupBoxCam.Name = "groupBoxCam";
@@ -194,6 +200,10 @@
             // 
             // groupBoxProcess
             // 
+            this.groupBoxProcess.Controls.Add(this.label5);
+            this.groupBoxProcess.Controls.Add(this.label4);
+            this.groupBoxProcess.Controls.Add(this.label3);
+            this.groupBoxProcess.Controls.Add(this.label2);
             this.groupBoxProcess.Controls.Add(this.labelOutpwm);
             this.groupBoxProcess.Controls.Add(this.labelError);
             this.groupBoxProcess.Controls.Add(this.labelCenter);
@@ -207,6 +217,42 @@
             this.groupBoxProcess.TabIndex = 7;
             this.groupBoxProcess.TabStop = false;
             this.groupBoxProcess.Text = "Process Frame";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(291, 273);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(29, 12);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "Back";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(120, 274);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(29, 12);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Mask";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(289, 138);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(23, 12);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "Hue";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(120, 137);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(41, 12);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "Target";
             // 
             // labelOutpwm
             // 
@@ -334,6 +380,18 @@
             this.showCrossToolStripMenuItem.Text = "Show Cross";
             this.showCrossToolStripMenuItem.Click += new System.EventHandler(this.showCrossToolStripMenuItem_Click);
             // 
+            // labelMISS
+            // 
+            this.labelMISS.AutoSize = true;
+            this.labelMISS.BackColor = System.Drawing.Color.Transparent;
+            this.labelMISS.Font = new System.Drawing.Font("宋体", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.labelMISS.ForeColor = System.Drawing.Color.Red;
+            this.labelMISS.Location = new System.Drawing.Point(278, 231);
+            this.labelMISS.Name = "labelMISS";
+            this.labelMISS.Size = new System.Drawing.Size(127, 33);
+            this.labelMISS.TabIndex = 3;
+            this.labelMISS.Text = "Missing";
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -352,6 +410,7 @@
             this.controlArea.ResumeLayout(false);
             this.controlArea.PerformLayout();
             this.groupBoxCam.ResumeLayout(false);
+            this.groupBoxCam.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageBoxCam)).EndInit();
             this.groupBoxProcess.ResumeLayout(false);
             this.groupBoxProcess.PerformLayout();
@@ -394,6 +453,11 @@
         private System.Windows.Forms.ToolStripMenuItem remoteToolStripMenuItem;
         private Emgu.CV.UI.ImageBox imageBoxCam;
         private System.Windows.Forms.ToolStripMenuItem showCrossToolStripMenuItem;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label labelMISS;
     }
 }
 

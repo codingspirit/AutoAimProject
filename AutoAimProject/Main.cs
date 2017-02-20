@@ -75,8 +75,31 @@ namespace AutoAimProject
                         else
                         {
                             RotatedRect result = objTracking.Tracking(frame);
-                            frame.Draw(result, new Bgr(255, 0, 255), 2);
-                            frame.Draw(new CircleF(result.Center, 5), new Bgr(0, 0, 255), 2);
+                            if(objTracking._lost)//tracking lost
+                            {
+                                if (this.IsHandleCreated)
+                                {
+                                    this.Invoke((MethodInvoker)delegate
+                                    {
+                                        labelMISS.Visible = true;
+                                    });
+                                }
+                               CvInvoke.DrawContours(frame, objTracking.vvpApprox, objTracking.targetVVPIndex, new MCvScalar(0, 255, 255), 1);
+                            }
+                            else
+                            {
+                                if (this.IsHandleCreated)
+                                {
+                                    this.Invoke((MethodInvoker)delegate
+                                    {
+                                        labelMISS.Visible = false;
+                                    });
+                                }
+                                CvInvoke.DrawContours(frame, objTracking.vvpApprox, objTracking.targetVVPIndex, new MCvScalar(0, 255, 0), 1);
+                                //frame.Draw(objTracking.test, new Bgr(0, 255, 255));
+                                frame.Draw(result, new Bgr(255, 0, 255), 2);
+                                frame.Draw(new CircleF(result.Center, 5), new Bgr(Color.Blue), 1);
+                            }
                             if(_cross)
                             {
                                 frame.Draw(new Cross2DF(new PointF(frame.Width/2, frame.Height/2), 200, 100), new Bgr(255, 0, 0),2);
@@ -211,6 +234,8 @@ namespace AutoAimProject
             imageBoxBack.Image = new Image<Bgr, byte>(Properties.Resources.WR).Resize(0.5, Inter.Area);
             buttonAutoAim.Enabled = false;
             progressBar1.Maximum = 100;
+            this.imageBoxCam.Controls.Add(this.labelMISS);
+            labelMISS.Visible = false;
             serialPort1.DataReceived += SerialPort1_DataReceived;
         }
 
@@ -253,8 +278,10 @@ namespace AutoAimProject
                 {
                     _selectIng = false;
                     _selectEd = true;
-                    Mat b = new Mat(captureget, selectobject);
-                    imageBoxROI.Image = b.ToImage<Bgr, Byte>().Resize(imageBoxROI.Width, imageBoxROI.Height, Inter.Area);
+                    using (Mat b = new Mat(captureget, selectobject))
+                    {
+                        imageBoxROI.Image = b.ToImage<Bgr, Byte>().Resize(imageBoxROI.Width, imageBoxROI.Height, Inter.Area);
+                    }
                     if (objTracking != null)
                     {
                         objTracking = null;
