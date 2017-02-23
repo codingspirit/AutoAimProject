@@ -88,6 +88,7 @@ namespace AutoAimProject
                 catch (Exception e)
                 {
                     MessageBox.Show("Can't Start Server:" + e.Message, "Error!");
+                    isRunning = false;
                     return false;
                 }
             }

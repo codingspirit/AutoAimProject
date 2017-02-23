@@ -103,9 +103,11 @@ namespace AutoAimProject
                 }
                 using (MemoryStream stream = new MemoryStream())
                 {
-                    (sender as Bitmap).Save(stream, ImageFormat.Bmp);
+                    //(sender as Bitmap).Save(stream, ImageFormat.Bmp);
+                    (sender as Bitmap).Save(stream, ImageFormat.Jpeg);
                     byte[] imagebyte = new byte[stream.Length];
                     imagebyte = stream.ToArray();
+                    server.Send(comboBoxClient.Text, Encoding.UTF8.GetBytes("#!#" + imagebyte.Length.ToString()));//packge head + file length
                     server.Send(comboBoxClient.Text, imagebyte);
                 }
             }
@@ -118,7 +120,7 @@ namespace AutoAimProject
                 this.Invoke(mydelgate, new object[] { sender, e });
                 return;
             }
-            if(!((string)sender).Contains("filelength"))
+            if(!((string)sender).Contains("filelength")&& !((string)sender).Contains("#!#"))
             listBoxState.Items.Add((string)sender);
         }
 
@@ -133,6 +135,7 @@ namespace AutoAimProject
 
         private void buttonSend_Click(object sender, EventArgs e)
         {
+            server.Send(comboBoxClient.Text, Encoding.UTF8.GetBytes("#!#" + textBoxSendText.Text.Length.ToString("D5")));
             server.Send(comboBoxClient.Text, Encoding.UTF8.GetBytes(textBoxSendText.Text));
         }
         public static byte[] ZipByte(byte[] bytes)

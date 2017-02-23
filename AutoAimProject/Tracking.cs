@@ -98,7 +98,7 @@ namespace AutoAimProject
                 }
                 for (int i = 0; i < vvpApproxDensity.Length; i++)
                 {
-                    if (vvpApproxDensity[i] >= targetDensity) 
+                    if (vvpApproxDensity[i] >= targetDensity * 0.8) 
                     {
                         trackingWindow = vvpApproxRect[i];
                         _lost = false;
