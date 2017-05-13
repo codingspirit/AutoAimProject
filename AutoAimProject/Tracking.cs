@@ -198,7 +198,7 @@ namespace AutoAimProject
             for (int i = 0; i < invvp.Size; i++)
             {
                 boundingRectangle = CvInvoke.BoundingRectangle(invvp[i]);
-                if (RectOverlap(boundingRectangle, window) > 0)
+                if (RectOverlap(boundingRectangle, window) > 0.1)
                 {
                     return i;
                 }

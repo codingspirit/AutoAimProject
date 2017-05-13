@@ -1,7 +1,7 @@
 Protel Design System Design Rule Check
 PCB File : C:\Users\ALEX.DON.SCOFIELD\Desktop\main_board\main_board\main_board.PcbDoc
-Date     : 2017/1/6
-Time     : 10:27:15
+Date     : 2017/3/30
+Time     : 20:53:11
 
 Processing Rule : Modified Polygon (Allow modified: No), (Allow shelved: No)
 Rule Violations :0
@@ -47,4 +47,4 @@ Rule Violations :0
 
 
 Violations Detected : 0
-Time Elapsed        : 00:00:02
+Time Elapsed        : 00:00:01

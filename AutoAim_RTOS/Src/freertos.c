@@ -4,7 +4,7 @@
   * Description        : Code for freertos applications
   ******************************************************************************
   *
-  * Copyright (c) 2016 STMicroelectronics International N.V.
+  * Copyright (c) 2017 STMicroelectronics International N.V.
   * All rights reserved.
   *
   * Redistribution and use in source and binary forms, with or without
@@ -151,6 +151,7 @@ void StartGetStateTask(void const * argument)
         ulTaskNotifyTake(pdTRUE, osWaitForever);
         mstate = GetStates(UserRxData);
         xTaskNotifyGive(controlTaskHandle);
+        HAL_GPIO_TogglePin(LED2_GPIO_Port, LED2_Pin);
     }
 
     /* USER CODE END StartGetStateTask */
@@ -170,25 +171,25 @@ void StartKeyTask(void const * argument)
         if(Value == 0x01)
         {
             HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_SET);
-            StepMotorControl(0, 10);
+            StepMotorControl(1, 10);
         }
 
         if(Value == 0x02)
         {
             HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_RESET);
-            StepMotorControl(0, -10);
+            StepMotorControl(1, -10);
         }
 
         if(Value == 0x03)
         {
             HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
-            StepMotorControl(1, 10);
+            StepMotorControl(0, 20);
         }
 
         if(Value == 0x04)
         {
             HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);
-            StepMotorControl(1, -10);
+            StepMotorControl(0, -20);
         }
     }
 
@@ -309,26 +310,29 @@ MotorState GetStates(uint8_t * RecieveData)
 }
 void StepMotorControl(_Bool motor, int pluse)
 {
-    if(!motor)//X
+    if(pluse != 0)
     {
-        if(pluse > 0)
-            HAL_GPIO_WritePin(DIRX_GPIO_Port, DIRX_Pin, GPIO_PIN_RESET);
+        if(!motor)//X
+        {
+            if(pluse > 0)
+                HAL_GPIO_WritePin(DIRX_GPIO_Port, DIRX_Pin, GPIO_PIN_RESET);
+
+            else
+                HAL_GPIO_WritePin(DIRX_GPIO_Port, DIRX_Pin, GPIO_PIN_SET);
+
+            User_TIM8_SetPluse(abs(pluse));
+        }
 
         else
-            HAL_GPIO_WritePin(DIRX_GPIO_Port, DIRX_Pin, GPIO_PIN_SET);
+        {
+            if(pluse > 0)
+                HAL_GPIO_WritePin(DIRY_GPIO_Port, DIRY_Pin, GPIO_PIN_RESET);
 
-        User_TIM1_SetPluse(abs(pluse));
-    }
+            else
+                HAL_GPIO_WritePin(DIRY_GPIO_Port, DIRY_Pin, GPIO_PIN_SET);
 
-    else
-    {
-        if(pluse > 0)
-            HAL_GPIO_WritePin(DIRY_GPIO_Port, DIRY_Pin, GPIO_PIN_RESET);
-
-        else
-            HAL_GPIO_WritePin(DIRY_GPIO_Port, DIRY_Pin, GPIO_PIN_SET);
-
-        User_TIM8_SetPluse(abs(pluse));
+            User_TIM1_SetPluse(abs(pluse));
+        }
     }
 }
 void SetUserTxData(int x, int y)

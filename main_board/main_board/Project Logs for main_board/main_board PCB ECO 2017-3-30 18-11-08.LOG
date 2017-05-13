@@ -1,0 +1,3 @@
+Change Component Footprint: Designator=U1 Old Footprint=74lvc245 New Footprint=TSSOP20
+Change Component Designator: OldDesignator=R19 NewDesignator=R29
+Change Component Designator: OldDesignator=R20 NewDesignator=R28

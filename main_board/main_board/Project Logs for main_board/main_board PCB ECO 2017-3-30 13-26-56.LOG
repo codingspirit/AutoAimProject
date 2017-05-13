@@ -1,0 +1,2 @@
+Change Component Footprint: Designator=P2 Old Footprint=USB_MICRO New Footprint=USB_MINI
+Change Component Designator: OldDesignator=RESET NewDesignator=S2
