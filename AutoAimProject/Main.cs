@@ -85,6 +85,7 @@ namespace AutoAimProject
                                     });
                                 }
                                CvInvoke.DrawContours(frame, objTracking.vvpApprox, objTracking.targetVVPIndex, new MCvScalar(0, 255, 255), 1);
+                                result.Center = new PointF(320, 240);
                             }
                             else
                             {
