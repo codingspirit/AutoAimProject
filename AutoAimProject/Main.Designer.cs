@@ -40,6 +40,7 @@
             this.buttonSend = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBoxCam = new System.Windows.Forms.GroupBox();
+            this.labelMISS = new System.Windows.Forms.Label();
             this.imageBoxCam = new Emgu.CV.UI.ImageBox();
             this.groupBoxProcess = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -61,7 +62,6 @@
             this.remoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showCrossToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.labelMISS = new System.Windows.Forms.Label();
             this.controlArea.SuspendLayout();
             this.groupBoxCam.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageBoxCam)).BeginInit();
@@ -183,6 +183,18 @@
             this.groupBoxCam.TabIndex = 6;
             this.groupBoxCam.TabStop = false;
             this.groupBoxCam.Text = "Cam Area";
+            // 
+            // labelMISS
+            // 
+            this.labelMISS.AutoSize = true;
+            this.labelMISS.BackColor = System.Drawing.Color.Transparent;
+            this.labelMISS.Font = new System.Drawing.Font("宋体", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.labelMISS.ForeColor = System.Drawing.Color.Red;
+            this.labelMISS.Location = new System.Drawing.Point(278, 231);
+            this.labelMISS.Name = "labelMISS";
+            this.labelMISS.Size = new System.Drawing.Size(127, 33);
+            this.labelMISS.TabIndex = 3;
+            this.labelMISS.Text = "Missing";
             // 
             // imageBoxCam
             // 
@@ -380,18 +392,6 @@
             this.showCrossToolStripMenuItem.Text = "Show Cross";
             this.showCrossToolStripMenuItem.Click += new System.EventHandler(this.showCrossToolStripMenuItem_Click);
             // 
-            // labelMISS
-            // 
-            this.labelMISS.AutoSize = true;
-            this.labelMISS.BackColor = System.Drawing.Color.Transparent;
-            this.labelMISS.Font = new System.Drawing.Font("宋体", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.labelMISS.ForeColor = System.Drawing.Color.Red;
-            this.labelMISS.Location = new System.Drawing.Point(278, 231);
-            this.labelMISS.Name = "labelMISS";
-            this.labelMISS.Size = new System.Drawing.Size(127, 33);
-            this.labelMISS.TabIndex = 3;
-            this.labelMISS.Text = "Missing";
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -405,7 +405,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Main";
-            this.Text = "AutoAim Ver Beta By Coding Spirit";
+            this.Text = "AutoAim Ver 2.8a By Coding Spirit";
             this.Load += new System.EventHandler(this.Main_Load);
             this.controlArea.ResumeLayout(false);
             this.controlArea.PerformLayout();

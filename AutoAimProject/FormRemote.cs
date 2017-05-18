@@ -110,6 +110,7 @@ namespace AutoAimProject
                     server.Send(comboBoxClient.Text, Encoding.UTF8.GetBytes("#!#" + imagebyte.Length.ToString()));//packge head + file length
                     server.Send(comboBoxClient.Text, imagebyte);
                 }
+                buttonSend.Enabled = false;//send text is forbidden
             }
         }
         private void SocketSended(object sender, EventArgs e)
